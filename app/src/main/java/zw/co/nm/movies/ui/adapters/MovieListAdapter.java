@@ -36,11 +36,11 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull MovieListAdapter.ViewHolder holder, int position) {
-        Picasso.get().load(localDataSet.get(position).getMedium_cover_image()).into(holder.itemMovieDetailBinding.imageView);
-        holder.itemMovieDetailBinding.movieTitle.setText(localDataSet.get(position).getTitle());
+        Picasso.get().load(localDataSet.get(position).getLarge_cover_image()).into(holder.itemMovieDetailBinding.imageView);
+       /* holder.itemMovieDetailBinding.movieTitle.setText(localDataSet.get(position).getTitle());
         holder.itemMovieDetailBinding.yearTxt.setText(localDataSet.get(position).getYear());
-      //  holder.itemMovieDetailBinding.lanTxt.setText(localDataSet.get(position).getLanguage());
-        holder.itemMovieDetailBinding.lanTxt.setText(localDataSet.get(position).getGenres().toString());
+        holder.itemMovieDetailBinding.lanTxt.setText(localDataSet.get(position).getLanguage());
+        holder.itemMovieDetailBinding.lanTxt.setText(localDataSet.get(position).getGenres().toString());*/
 
     }
 

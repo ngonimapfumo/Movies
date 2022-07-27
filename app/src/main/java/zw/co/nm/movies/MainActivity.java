@@ -1,10 +1,12 @@
 package zw.co.nm.movies;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.google.gson.Gson;
 
@@ -13,6 +15,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -52,11 +55,11 @@ public class MainActivity extends AppCompatActivity implements MovieListAdapter.
                 if (jsonArray != null && jsonArray.length() > 0) {
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject obj = Utils.getJsonObject(jsonArray, i);
-                         Movie movie = new Gson().fromJson(obj.toString(), Movie.class);
+                        Movie movie = new Gson().fromJson(Objects.requireNonNull(obj).toString(), Movie.class);
                         movies.add(movie);
                         movieListAdapter = new MovieListAdapter(movies, MainActivity.this, MainActivity.this);
                         activityMainBinding.movieRecycler.setHasFixedSize(true);
-                        activityMainBinding.movieRecycler.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+                        activityMainBinding.movieRecycler.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));
                         activityMainBinding.movieRecycler.setAdapter(movieListAdapter);
                     }
                 }
@@ -64,10 +67,17 @@ public class MainActivity extends AppCompatActivity implements MovieListAdapter.
 
             @Override
             public void onFailure(Call<GetMovieResponse> call, Throwable t) {
-                System.out.println(t.getLocalizedMessage());
 
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.options_menu, menu);
+
+        return true;
     }
 
     @Override

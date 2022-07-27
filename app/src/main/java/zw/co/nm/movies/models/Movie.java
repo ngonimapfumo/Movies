@@ -5,10 +5,19 @@ import java.util.List;
 public class Movie {
 
     private String medium_cover_image;
+    private String large_cover_image;
     private String title;
     private String year;
     private String language;
     private List genres;
+
+    public String getLarge_cover_image() {
+        return large_cover_image;
+    }
+
+    public void setLarge_cover_image(String large_cover_image) {
+        this.large_cover_image = large_cover_image;
+    }
 
     public List getGenres() {
         return genres;
