@@ -1,6 +1,7 @@
 package zw.co.nm.movies;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -25,12 +26,12 @@ public class MainActivity extends AppCompatActivity {
         call.enqueue(new Callback<GetMoviesResponse>() {
             @Override
             public void onResponse(Call<GetMoviesResponse> call, Response<GetMoviesResponse> response) {
-
-                System.out.println(response.body());
+                /*Toast.makeText(MainActivity.this, response.body().getData().movies.get(0).description_full+"", Toast.LENGTH_SHORT).show();*/
             }
 
             @Override
             public void onFailure(Call<GetMoviesResponse> call, Throwable t) {
+                System.out.println(t.getLocalizedMessage());
 
             }
         });

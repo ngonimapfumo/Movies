@@ -65,7 +65,7 @@ public class GetMoviesResponse {
         public String medium_cover_image;
         public String large_cover_image;
         public String state;
-        public ArrayList<Torrent> torrents;
+      //  public ArrayList<Torrent> torrents;
         public String date_uploaded;
         public int date_uploaded_unix;
     }
