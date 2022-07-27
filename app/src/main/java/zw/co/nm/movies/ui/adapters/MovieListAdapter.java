@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 import zw.co.nm.movies.databinding.ItemMovieDetailBinding;
@@ -34,6 +36,11 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull MovieListAdapter.ViewHolder holder, int position) {
+        Picasso.get().load(localDataSet.get(position).getMedium_cover_image()).into(holder.itemMovieDetailBinding.imageView);
+        holder.itemMovieDetailBinding.movieTitle.setText(localDataSet.get(position).getTitle());
+        holder.itemMovieDetailBinding.yearTxt.setText(localDataSet.get(position).getYear());
+      //  holder.itemMovieDetailBinding.lanTxt.setText(localDataSet.get(position).getLanguage());
+        holder.itemMovieDetailBinding.lanTxt.setText(localDataSet.get(position).getGenres().toString());
 
     }
 

@@ -31,15 +31,16 @@
 
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/movie_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
-                android:text="Kung Fu Panda 2"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/imageView"
                 app:layout_constraintStart_toEndOf="@+id/imageView"
                 app:layout_constraintTop_toTopOf="@+id/imageView"
-                app:layout_constraintVertical_bias="0.053" />
+                app:layout_constraintVertical_bias="0.053"
+                tools:text="Kung Fu Panda 2" />
 
 
             <TextView
@@ -47,18 +48,41 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:text="IMDB RATING"
-                app:layout_constraintStart_toStartOf="@+id/textView"
-                app:layout_constraintTop_toBottomOf="@+id/textView" />
+                android:text="Year"
+                app:layout_constraintStart_toStartOf="@+id/movie_title"
+                app:layout_constraintTop_toBottomOf="@+id/movie_title" />
 
             <TextView
-                android:textStyle="bold"
+                android:id="@+id/year_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:text="7.2"
                 app:layout_constraintBottom_toBottomOf="@+id/textView2"
-                app:layout_constraintStart_toEndOf="@+id/textView2" />
+                app:layout_constraintStart_toEndOf="@+id/textView2"
+                tools:text="1993" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="Genres"
+                app:layout_constraintEnd_toEndOf="@+id/year_txt"
+                app:layout_constraintHorizontal_bias="0.272"
+                app:layout_constraintStart_toEndOf="@+id/imageView"
+                app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+            <TextView
+
+                android:id="@+id/lan_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="[Documentary, Sport]"
+                app:layout_constraintBottom_toBottomOf="@+id/textView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.226"
+                app:layout_constraintStart_toEndOf="@+id/textView" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

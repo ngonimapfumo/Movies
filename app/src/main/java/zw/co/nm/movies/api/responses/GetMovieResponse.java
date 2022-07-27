@@ -2,7 +2,7 @@ package zw.co.nm.movies.api.responses;
 
 import java.util.ArrayList;
 
-public class GetMoviesResponse {
+public class GetMovieResponse {
     String status;
     String status_message;
     Data data;
