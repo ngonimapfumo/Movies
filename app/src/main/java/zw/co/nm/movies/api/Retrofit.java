@@ -20,13 +20,9 @@ public class Retrofit {
         HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
         httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
-        builder.addInterceptor(new Interceptor() {
-            @NonNull
-            @Override
-            public Response intercept(@NonNull Chain chain) throws IOException {
-                Request.Builder requestBuilder = chain.request().newBuilder();
-                return chain.proceed(requestBuilder.build());
-            }
+        builder.addInterceptor(chain -> {
+            Request.Builder requestBuilder = chain.request().newBuilder();
+            return chain.proceed(requestBuilder.build());
         });
         OkHttpClient okHttpClient = builder.addInterceptor(httpLoggingInterceptor).build();
         retrofit = new retrofit2.Retrofit.Builder()
