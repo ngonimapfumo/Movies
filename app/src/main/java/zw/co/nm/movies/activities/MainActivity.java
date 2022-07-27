@@ -1,5 +1,6 @@
-package zw.co.nm.movies;
+package zw.co.nm.movies.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,6 +21,7 @@ import java.util.Objects;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import zw.co.nm.movies.R;
 import zw.co.nm.movies.api.Retrofit;
 import zw.co.nm.movies.api.responses.GetMovieResponse;
 import zw.co.nm.movies.databinding.ActivityMainBinding;
@@ -82,6 +84,7 @@ public class MainActivity extends AppCompatActivity implements MovieListAdapter.
 
     @Override
     public void onMovieItemClick(int position) {
+        startActivity(new Intent(this,MovieDetailActivity.class));
 
     }
 }
