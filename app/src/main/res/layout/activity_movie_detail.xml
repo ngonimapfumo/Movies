@@ -7,7 +7,7 @@
     tools:context=".activities.MovieDetailActivity">
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/background_img"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
@@ -53,8 +53,8 @@
 
         <ImageView
             android:id="@+id/imgv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:adjustViewBounds="true"
             app:srcCompat="@drawable/sample_cover" />
 
@@ -70,7 +70,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.099"
         app:layout_constraintStart_toEndOf="@+id/cardView"
-        app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+        app:layout_constraintTop_toBottomOf="@+id/background_img" />
 
     <TextView
         android:id="@+id/textView4"

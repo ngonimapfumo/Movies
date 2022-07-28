@@ -7,13 +7,16 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.SearchView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -36,6 +39,9 @@ public class MainActivity extends AppCompatActivity implements MovieListAdapter.
     private MovieListAdapter movieListAdapter;
     private List<Movie> movies;
     private ActivityMainBinding activityMainBinding;
+    private List<String> movieSummary;
+    private List<String> mediumCoverImage;
+    private List<String> backgroundImageOriginal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,22 +55,36 @@ public class MainActivity extends AppCompatActivity implements MovieListAdapter.
     private void testOne(String query) {
         activityMainBinding.progBar.setVisibility(View.VISIBLE);
         movies = new ArrayList<>();
+        movieSummary = new ArrayList<>();
+        mediumCoverImage = new ArrayList<>();
+        backgroundImageOriginal=  new ArrayList<>();
         Call<GetMovieResponse> call = Retrofit.getService().getMovies(query);
         call.enqueue(new Callback<GetMovieResponse>() {
             @Override
-            public void onResponse(Call<GetMovieResponse> call, Response<GetMovieResponse> response) {
+            public void onResponse(@NonNull Call<GetMovieResponse> call, @NonNull Response<GetMovieResponse> response) {
                 activityMainBinding.progBar.setVisibility(View.GONE);
-                String resString = new Gson().toJson(response.body().getData().movies);
+                String resString = null;
+                if (response.body() != null) {
+                    resString = new Gson().toJson(response.body().getData().movies);
+                }
                 JSONArray jsonArray = Utils.getJsonArray(resString);
                 if (jsonArray != null && jsonArray.length() > 0) {
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject obj = Utils.getJsonObject(jsonArray, i);
                         Movie movie = new Gson().fromJson(Objects.requireNonNull(obj).toString(), Movie.class);
-                        movies.add(movie);
-                        movieListAdapter = new MovieListAdapter(movies, MainActivity.this, MainActivity.this);
-                        activityMainBinding.movieRecycler.setHasFixedSize(true);
-                        activityMainBinding.movieRecycler.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));
-                        activityMainBinding.movieRecycler.setAdapter(movieListAdapter);
+                        try {
+                            movieSummary.add(obj.getString("summary"));
+                            mediumCoverImage.add(obj.getString("medium_cover_image"));
+                            backgroundImageOriginal.add(obj.getString("background_image"));
+                            movies.add(movie);
+                            movieListAdapter = new MovieListAdapter(movies, MainActivity.this, MainActivity.this);
+                            activityMainBinding.movieRecycler.setHasFixedSize(true);
+                            activityMainBinding.movieRecycler.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));
+                            activityMainBinding.movieRecycler.setAdapter(movieListAdapter);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
                     }
                 }
             }
@@ -100,7 +120,14 @@ public class MainActivity extends AppCompatActivity implements MovieListAdapter.
 
     @Override
     public void onMovieItemClick(int position) {
-        startActivity(new Intent(this, MovieDetailActivity.class));
+        Bundle bundle = new Bundle();
+        String summary = movieSummary.get(position);
+        String medium_cover_image = mediumCoverImage.get(position);
+        String background_image_original = backgroundImageOriginal.get(position);
+        bundle.putSerializable("summary",summary);
+        bundle.putSerializable("medium_cover_image",medium_cover_image);
+        bundle.putSerializable("background_image_original",background_image_original);
+        startActivity(new Intent(this, MovieDetailActivity.class).putExtras(bundle));
 
     }
 }
