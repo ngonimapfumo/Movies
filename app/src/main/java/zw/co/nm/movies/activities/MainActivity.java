@@ -48,17 +48,17 @@ public class MainActivity extends AppCompatActivity implements MovieListAdapter.
         super.onCreate(savedInstanceState);
         activityMainBinding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(activityMainBinding.getRoot());
-        testOne("");
+        testOne("",20);
 
     }
 
-    private void testOne(String query) {
+    private void testOne(String query,int limit) {
         activityMainBinding.progBar.setVisibility(View.VISIBLE);
         movies = new ArrayList<>();
         movieSummary = new ArrayList<>();
         mediumCoverImage = new ArrayList<>();
         backgroundImageOriginal=  new ArrayList<>();
-        Call<GetMovieResponse> call = Retrofit.getService().getMovies(query);
+        Call<GetMovieResponse> call = Retrofit.getService().getMovies(query,limit);
         call.enqueue(new Callback<GetMovieResponse>() {
             @Override
             public void onResponse(@NonNull Call<GetMovieResponse> call, @NonNull Response<GetMovieResponse> response) {
@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements MovieListAdapter.
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
-                testOne(s);
+                testOne(s,50);
                 return true;
             }
 

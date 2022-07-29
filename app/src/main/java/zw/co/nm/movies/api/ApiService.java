@@ -13,6 +13,6 @@ public interface ApiService {
     Call<GetMovieResponse> getMovies();
 
     @GET("list_movies.json")
-    Call<GetMovieResponse> getMovies(@Query("query_term") String query);
+    Call<GetMovieResponse> getMovies(@Query("query_term") String query, @Query("limit")int limit);
 
 }
