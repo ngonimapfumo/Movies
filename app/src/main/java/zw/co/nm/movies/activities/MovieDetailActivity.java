@@ -16,6 +16,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     private Bundle extras;
     private String imgUrl;
     private String backgroundImgUrl;
+    private String summary;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,10 +25,13 @@ public class MovieDetailActivity extends AppCompatActivity {
         extras = getIntent().getExtras();
         imgUrl = extras.getString("medium_cover_image");
         backgroundImgUrl = extras.getString("background_image_original");
+        summary = extras.getString("summary");
 
        // Toast.makeText(this, extras.getString("medium_cover_image"), Toast.LENGTH_SHORT).show();
-      //  Picasso.get().load(imgUrl).placeholder(R.drawable.default_loading_image).into(activityMovieDetailBinding.imgv);
+        Picasso.get().load(imgUrl).into(activityMovieDetailBinding.imgv);
       //  Picasso.get().load(backgroundImgUrl).placeholder(R.drawable.sample_background).into(activityMovieDetailBinding.backgroundImg);
+
+        activityMovieDetailBinding.summaryTxt.setText(summary);
 
     }
 }
