@@ -1,13 +1,11 @@
 package zw.co.nm.movies.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
-import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.squareup.picasso.Picasso;
 
-import zw.co.nm.movies.R;
 import zw.co.nm.movies.databinding.ActivityMovieDetailBinding;
 
 public class MovieDetailActivity extends AppCompatActivity {
@@ -17,6 +15,10 @@ public class MovieDetailActivity extends AppCompatActivity {
     private String imgUrl;
     private String backgroundImgUrl;
     private String summary;
+    private String year;
+    private String runtime;
+    private String rating;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,12 +28,17 @@ public class MovieDetailActivity extends AppCompatActivity {
         imgUrl = extras.getString("medium_cover_image");
         backgroundImgUrl = extras.getString("background_image_original");
         summary = extras.getString("summary");
+        year = extras.getString("year");
+        runtime = extras.getString("runtime");
+        rating = extras.getString("rating");
 
-       // Toast.makeText(this, extras.getString("medium_cover_image"), Toast.LENGTH_SHORT).show();
+
         Picasso.get().load(imgUrl).into(activityMovieDetailBinding.imgv);
-      //  Picasso.get().load(backgroundImgUrl).placeholder(R.drawable.sample_background).into(activityMovieDetailBinding.backgroundImg);
-
         activityMovieDetailBinding.summaryTxt.setText(summary);
+        activityMovieDetailBinding.yearTxt.setText(year);
+        activityMovieDetailBinding.ratingTxt.setText(rating);
+        activityMovieDetailBinding.runtimeTxt.setText(String.format("%s minutes", runtime));
+
 
     }
 }

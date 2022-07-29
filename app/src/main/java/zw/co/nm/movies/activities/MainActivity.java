@@ -7,7 +7,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.SearchView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -43,6 +42,9 @@ public class MainActivity extends AppCompatActivity implements MovieListAdapter.
     private List<String> movieSummary;
     private List<String> mediumCoverImage;
     private List<String> backgroundImageOriginal;
+    private List<String> year;
+    private List<String> runtime;
+    private List<String> rating;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +61,9 @@ public class MainActivity extends AppCompatActivity implements MovieListAdapter.
         movieSummary = new ArrayList<>();
         mediumCoverImage = new ArrayList<>();
         backgroundImageOriginal = new ArrayList<>();
+        runtime = new ArrayList<>();
+        year = new ArrayList<>();
+        rating = new ArrayList<>();
         Call<GetMovieResponse> call = Retrofit.getService().getMovies(query, limit);
         call.enqueue(new Callback<GetMovieResponse>() {
             @Override
@@ -68,9 +73,9 @@ public class MainActivity extends AppCompatActivity implements MovieListAdapter.
                     activityMainBinding.progBar.setVisibility(View.GONE);
                     AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                     builder.setMessage("No Movies found for this search, please try again");
-                    builder.setPositiveButton("OKAY",null)
+                    builder.setPositiveButton("OKAY", null)
                             .setCancelable(false)
-                                    .show();
+                            .show();
 
                 } else {
                     activityMainBinding.progBar.setVisibility(View.GONE);
@@ -87,6 +92,9 @@ public class MainActivity extends AppCompatActivity implements MovieListAdapter.
                                 movieSummary.add(obj.getString("summary"));
                                 mediumCoverImage.add(obj.getString("medium_cover_image"));
                                 backgroundImageOriginal.add(obj.getString("background_image"));
+                                year.add(obj.getString("year"));
+                                runtime.add(obj.getString("runtime"));
+                                rating.add(obj.getString("rating"));
                                 movies.add(movie);
                                 movieListAdapter = new MovieListAdapter(movies, MainActivity.this, MainActivity.this);
                                 activityMainBinding.movieRecycler.setHasFixedSize(true);
@@ -134,11 +142,17 @@ public class MainActivity extends AppCompatActivity implements MovieListAdapter.
     public void onMovieItemClick(int position) {
         Bundle bundle = new Bundle();
         String summary = movieSummary.get(position);
-        String medium_cover_image = mediumCoverImage.get(position);
-        String background_image_original = backgroundImageOriginal.get(position);
+        String mediumCoverImageStr = mediumCoverImage.get(position);
+        String backgroundImageOriginalStr = backgroundImageOriginal.get(position);
+        String yearStr = year.get(position);
+        String runtimeStr = runtime.get(position);
+        String ratingStr = rating.get(position);
         bundle.putSerializable("summary", summary);
-        bundle.putSerializable("medium_cover_image", medium_cover_image);
-        bundle.putSerializable("background_image_original", background_image_original);
+        bundle.putSerializable("medium_cover_image", mediumCoverImageStr);
+        bundle.putSerializable("background_image_original", backgroundImageOriginalStr);
+        bundle.putSerializable("runtime", runtimeStr);
+        bundle.putSerializable("year", yearStr);
+        bundle.putSerializable("rating", ratingStr);
         startActivity(new Intent(this, MovieDetailActivity.class).putExtras(bundle));
 
     }

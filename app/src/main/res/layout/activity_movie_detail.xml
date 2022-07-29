@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="King Otto"
-        android:textColor="#99ffffff"
+        android:textColor="#ffffff"
         android:textSize="25sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -35,7 +35,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Action, Adventure, Science Fiction"
-        android:textColor="#99ffffff"
+        android:textColor="#ffffff"
         app:layout_constraintEnd_toEndOf="@+id/title"
         app:layout_constraintStart_toStartOf="@+id/title"
         app:layout_constraintTop_toBottomOf="@+id/title" />
@@ -63,26 +63,26 @@
 
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/yearTxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="2011"
+        tools:text="2011"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.099"
         app:layout_constraintStart_toEndOf="@+id/cardView"
         app:layout_constraintTop_toBottomOf="@+id/background_img" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/runtimeTxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="91 mis"
-        app:layout_constraintEnd_toEndOf="@+id/textView3"
+        tools:text="91 minutes"
+        app:layout_constraintEnd_toEndOf="@+id/yearTxt"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/textView3"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+        app:layout_constraintStart_toStartOf="@+id/yearTxt"
+        app:layout_constraintTop_toBottomOf="@+id/yearTxt" />
 
 
     <TextView
@@ -132,6 +132,40 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="Rating : "
+        app:layout_constraintEnd_toEndOf="@+id/runtimeTxt"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/runtimeTxt"
+        app:layout_constraintTop_toBottomOf="@+id/runtimeTxt" />
+
+    <TextView
+        android:id="@+id/ratingTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        tools:text="4.6"
+        app:layout_constraintBottom_toBottomOf="@+id/textView"
+        app:layout_constraintStart_toEndOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/runtimeTxt"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="17dp"
+        android:layout_height="19dp"
+        android:layout_marginStart="4dp"
+        app:layout_constraintBottom_toBottomOf="@+id/ratingTxt"
+        app:layout_constraintStart_toEndOf="@+id/ratingTxt"
+        app:layout_constraintTop_toTopOf="@+id/ratingTxt"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/star"
+        app:tint="@color/blue_grey" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
