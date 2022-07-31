@@ -18,6 +18,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     private String year;
     private String runtime;
     private String rating;
+    private String title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,12 +32,15 @@ public class MovieDetailActivity extends AppCompatActivity {
         year = extras.getString("year");
         runtime = extras.getString("runtime");
         rating = extras.getString("rating");
+        title = extras.getString("title");
+
 
 
         Picasso.get().load(imgUrl).into(activityMovieDetailBinding.imgv);
         activityMovieDetailBinding.summaryTxt.setText(summary);
         activityMovieDetailBinding.yearTxt.setText(year);
         activityMovieDetailBinding.ratingTxt.setText(rating);
+        activityMovieDetailBinding.title.setText(title);
         activityMovieDetailBinding.runtimeTxt.setText(String.format("%s minutes", runtime));
 
 

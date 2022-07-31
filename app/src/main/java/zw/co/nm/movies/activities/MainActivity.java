@@ -20,7 +20,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import retrofit2.Call;
@@ -45,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements MovieListAdapter.
     private List<String> year;
     private List<String> runtime;
     private List<String> rating;
+    private List<String> titles;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements MovieListAdapter.
         runtime = new ArrayList<>();
         year = new ArrayList<>();
         rating = new ArrayList<>();
+        titles = new ArrayList<>();
         Call<GetMovieResponse> call = Retrofit.getService().getMovies(query, limit);
         call.enqueue(new Callback<GetMovieResponse>() {
             @Override
@@ -95,6 +99,7 @@ public class MainActivity extends AppCompatActivity implements MovieListAdapter.
                                 year.add(obj.getString("year"));
                                 runtime.add(obj.getString("runtime"));
                                 rating.add(obj.getString("rating"));
+                                titles.add(obj.getString("title"));
                                 movies.add(movie);
                                 movieListAdapter = new MovieListAdapter(movies, MainActivity.this, MainActivity.this);
                                 activityMainBinding.movieRecycler.setHasFixedSize(true);
@@ -141,18 +146,13 @@ public class MainActivity extends AppCompatActivity implements MovieListAdapter.
     @Override
     public void onMovieItemClick(int position) {
         Bundle bundle = new Bundle();
-        String summary = movieSummary.get(position);
-        String mediumCoverImageStr = mediumCoverImage.get(position);
-        String backgroundImageOriginalStr = backgroundImageOriginal.get(position);
-        String yearStr = year.get(position);
-        String runtimeStr = runtime.get(position);
-        String ratingStr = rating.get(position);
-        bundle.putSerializable("summary", summary);
-        bundle.putSerializable("medium_cover_image", mediumCoverImageStr);
-        bundle.putSerializable("background_image_original", backgroundImageOriginalStr);
-        bundle.putSerializable("runtime", runtimeStr);
-        bundle.putSerializable("year", yearStr);
-        bundle.putSerializable("rating", ratingStr);
+        bundle.putSerializable("summary", movieSummary.get(position));
+        bundle.putSerializable("medium_cover_image", mediumCoverImage.get(position));
+        bundle.putSerializable("background_image_original", backgroundImageOriginal.get(position));
+        bundle.putSerializable("runtime", runtime.get(position));
+        bundle.putSerializable("year", year.get(position));
+        bundle.putSerializable("rating", rating.get(position));
+        bundle.putSerializable("title", titles.get(position));
         startActivity(new Intent(this, MovieDetailActivity.class).putExtras(bundle));
 
     }
