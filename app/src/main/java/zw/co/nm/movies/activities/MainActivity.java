@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements MovieListAdapter.
     private List<String> runtime;
     private List<String> rating;
     private List<String> titles;
+    private List<String> ytTrailerCodes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements MovieListAdapter.
         year = new ArrayList<>();
         rating = new ArrayList<>();
         titles = new ArrayList<>();
+        ytTrailerCodes = new ArrayList<>();
         Call<GetMovieResponse> call = Retrofit.getService().getMovies(query, limit);
         call.enqueue(new Callback<GetMovieResponse>() {
             @Override
@@ -93,6 +95,7 @@ public class MainActivity extends AppCompatActivity implements MovieListAdapter.
                             JSONObject obj = Utils.getJsonObject(jsonArray, i);
                             Movie movie = new Gson().fromJson(Objects.requireNonNull(obj).toString(), Movie.class);
                             try {
+                                ytTrailerCodes.add(obj.getString("yt_trailer_code"));
                                 movieSummary.add(obj.getString("summary"));
                                 mediumCoverImage.add(obj.getString("medium_cover_image"));
                                 backgroundImageOriginal.add(obj.getString("background_image"));
@@ -153,6 +156,7 @@ public class MainActivity extends AppCompatActivity implements MovieListAdapter.
         bundle.putSerializable("year", year.get(position));
         bundle.putSerializable("rating", rating.get(position));
         bundle.putSerializable("title", titles.get(position));
+        bundle.putSerializable("yt_trailer_code",ytTrailerCodes.get(position));
         startActivity(new Intent(this, MovieDetailActivity.class).putExtras(bundle));
 
     }

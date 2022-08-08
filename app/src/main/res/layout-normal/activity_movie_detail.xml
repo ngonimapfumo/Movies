@@ -173,7 +173,7 @@
         app:tint="@color/blue_grey" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/trailer_btn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"

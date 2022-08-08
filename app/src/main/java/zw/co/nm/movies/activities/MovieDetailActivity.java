@@ -1,5 +1,7 @@
 package zw.co.nm.movies.activities;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +21,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     private String runtime;
     private String rating;
     private String title;
+    private String trailerCode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,15 +36,20 @@ public class MovieDetailActivity extends AppCompatActivity {
         runtime = extras.getString("runtime");
         rating = extras.getString("rating");
         title = extras.getString("title");
-
-
-
+        trailerCode = extras.getString("yt_trailer_code");
         Picasso.get().load(imgUrl).into(activityMovieDetailBinding.imgv);
         activityMovieDetailBinding.summaryTxt.setText(summary);
         activityMovieDetailBinding.yearTxt.setText(year);
         activityMovieDetailBinding.ratingTxt.setText(rating);
         activityMovieDetailBinding.title.setText(title);
         activityMovieDetailBinding.runtimeTxt.setText(String.format("%s minutes", runtime));
+
+        if (trailerCode.equals("")){
+            activityMovieDetailBinding.trailerBtn.setEnabled(false);
+        }
+        activityMovieDetailBinding.trailerBtn.setOnClickListener(view -> {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=" + trailerCode)));
+        });
 
 
     }
