@@ -3,14 +3,19 @@ package zw.co.nm.movies.activities;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.youtube.player.YouTubeBaseActivity;
+import com.google.android.youtube.player.YouTubeInitializationResult;
+import com.google.android.youtube.player.YouTubePlayer;
 import com.squareup.picasso.Picasso;
 
+import zw.co.nm.movies.BuildConfig;
 import zw.co.nm.movies.databinding.ActivityMovieDetailBinding;
 
-public class MovieDetailActivity extends AppCompatActivity {
+public class MovieDetailActivity extends YouTubeBaseActivity {
 
     private ActivityMovieDetailBinding activityMovieDetailBinding;
     private Bundle extras;
@@ -41,16 +46,29 @@ public class MovieDetailActivity extends AppCompatActivity {
         activityMovieDetailBinding.summaryTxt.setText(summary);
         activityMovieDetailBinding.yearTxt.setText(year);
         activityMovieDetailBinding.ratingTxt.setText(rating);
-        activityMovieDetailBinding.title.setText(title);
         activityMovieDetailBinding.runtimeTxt.setText(String.format("%s minutes", runtime));
 
-        if (trailerCode.equals("")){
-            activityMovieDetailBinding.trailerBtn.setEnabled(false);
+        if (trailerCode.equals("")) {
+         //   trailerCode = "";
         }
-        activityMovieDetailBinding.trailerBtn.setOnClickListener(view -> {
-            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=" + trailerCode)));
-        });
+
+        YouTubePlayer.OnInitializedListener listener = new YouTubePlayer.OnInitializedListener() {
+            @Override
+            public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
+                youTubePlayer.cueVideo(trailerCode);
+            }
+            @Override
+            public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
+                Toast.makeText(MovieDetailActivity.this, "video initialization failed", Toast.LENGTH_SHORT).show();
+            }
+        };
+        if (activityMovieDetailBinding.youtubePlayer != null) {
+            activityMovieDetailBinding.youtubePlayer.initialize(BuildConfig.API_KEY,listener);
+        }
 
 
     }
+
+
+
 }
