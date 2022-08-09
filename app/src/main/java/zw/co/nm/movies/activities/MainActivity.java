@@ -9,8 +9,10 @@ import android.view.View;
 import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.google.gson.Gson;
@@ -79,7 +81,9 @@ public class MainActivity extends AppCompatActivity implements MovieListAdapter.
                     activityMainBinding.progBar.setVisibility(View.GONE);
                     AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                     builder.setMessage("No Movies found for this search, please try again");
-                    builder.setPositiveButton("OKAY", null)
+                    builder.setPositiveButton("OKAY", (dialogInterface, i) -> {
+                                testOne("", 20);
+                            })
                             .setCancelable(false)
                             .show();
 
