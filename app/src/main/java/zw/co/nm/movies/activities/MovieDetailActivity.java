@@ -1,11 +1,12 @@
 package zw.co.nm.movies.activities;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 
 import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
@@ -13,6 +14,7 @@ import com.google.android.youtube.player.YouTubePlayer;
 import com.squareup.picasso.Picasso;
 
 import zw.co.nm.movies.BuildConfig;
+import zw.co.nm.movies.activities.viewmodels.MovieDetailViewModel;
 import zw.co.nm.movies.databinding.ActivityMovieDetailBinding;
 
 public class MovieDetailActivity extends YouTubeBaseActivity {
@@ -28,11 +30,15 @@ public class MovieDetailActivity extends YouTubeBaseActivity {
     private String title;
     private String trailerCode;
 
+  //  private MovieDetailViewModel movieDetailViewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityMovieDetailBinding = ActivityMovieDetailBinding.inflate(getLayoutInflater());
         setContentView(activityMovieDetailBinding.getRoot());
+      //  movieDetailViewModel = new ViewModelProvider((ViewModelStoreOwner) this).get(MovieDetailViewModel.class);
+
         extras = getIntent().getExtras();
         imgUrl = extras.getString("medium_cover_image");
         backgroundImgUrl = extras.getString("background_image_original");
@@ -48,8 +54,9 @@ public class MovieDetailActivity extends YouTubeBaseActivity {
         activityMovieDetailBinding.ratingTxt.setText(rating);
         activityMovieDetailBinding.runtimeTxt.setText(String.format("%s minutes", runtime));
 
+        activityMovieDetailBinding.backBtn.setOnClickListener(view -> {onBackPressed();});
         if (trailerCode.equals("")) {
-         //   trailerCode = "";
+            //   display something
         }
 
         YouTubePlayer.OnInitializedListener listener = new YouTubePlayer.OnInitializedListener() {
@@ -57,18 +64,18 @@ public class MovieDetailActivity extends YouTubeBaseActivity {
             public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
                 youTubePlayer.cueVideo(trailerCode);
             }
+
             @Override
             public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
                 Toast.makeText(MovieDetailActivity.this, "video initialization failed", Toast.LENGTH_SHORT).show();
             }
         };
         if (activityMovieDetailBinding.youtubePlayer != null) {
-            activityMovieDetailBinding.youtubePlayer.initialize(BuildConfig.API_KEY,listener);
+            activityMovieDetailBinding.youtubePlayer.initialize(BuildConfig.API_KEY, listener);
         }
 
 
     }
-
 
 
 }

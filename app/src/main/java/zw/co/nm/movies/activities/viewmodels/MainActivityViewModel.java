@@ -1,4 +1,4 @@
-package zw.co.nm.movies.viewmodels;
+package zw.co.nm.movies.activities.viewmodels;
 
 import android.app.Application;
 

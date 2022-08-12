@@ -37,8 +37,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull MovieListAdapter.ViewHolder holder, int position) {
-        Picasso.get().load(localDataSet.get(position).getLarge_cover_image()).placeholder(R.drawable.default_loading_image).error(R.drawable.default_loading_image)
-                .into(holder.itemMovieDetailBinding.imageView);
+        Picasso.get().load(localDataSet.get(position).getLarge_cover_image()).placeholder(R.drawable.sample_cover_large).error(R.drawable.sample_cover_large).into(holder.itemMovieDetailBinding.imageView);
        /* holder.itemMovieDetailBinding.movieTitle.setText(localDataSet.get(position).getTitle());
         holder.itemMovieDetailBinding.yearTxt.setText(localDataSet.get(position).getYear());
         holder.itemMovieDetailBinding.lanTxt.setText(localDataSet.get(position).getLanguage());
