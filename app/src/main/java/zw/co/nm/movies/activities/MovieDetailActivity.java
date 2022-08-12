@@ -29,6 +29,7 @@ public class MovieDetailActivity extends YouTubeBaseActivity {
     private String rating;
     private String title;
     private String trailerCode;
+    private String genres;
 
   //  private MovieDetailViewModel movieDetailViewModel;
 
@@ -48,15 +49,19 @@ public class MovieDetailActivity extends YouTubeBaseActivity {
         rating = extras.getString("rating");
         title = extras.getString("title");
         trailerCode = extras.getString("yt_trailer_code");
+        genres = extras.getString("genres");
         Picasso.get().load(imgUrl).into(activityMovieDetailBinding.imgv);
         activityMovieDetailBinding.summaryTxt.setText(summary);
         activityMovieDetailBinding.yearTxt.setText(year);
         activityMovieDetailBinding.ratingTxt.setText(rating);
         activityMovieDetailBinding.runtimeTxt.setText(String.format("%s minutes", runtime));
+        activityMovieDetailBinding.genres.setText(genres);
 
         activityMovieDetailBinding.backBtn.setOnClickListener(view -> {onBackPressed();});
         if (trailerCode.equals("")) {
-            //   display something
+           activityMovieDetailBinding.youtubePlayer.setVisibility(View.GONE);
+           activityMovieDetailBinding.backgroundImm.setVisibility(View.VISIBLE);
+           activityMovieDetailBinding.trailer404.setVisibility(View.VISIBLE);
         }
 
         YouTubePlayer.OnInitializedListener listener = new YouTubePlayer.OnInitializedListener() {

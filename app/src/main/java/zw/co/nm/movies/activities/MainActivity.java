@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements MovieListAdapter.
     private List<String> rating;
     private List<String> titles;
     private List<String> ytTrailerCodes;
+    private List<String> genres;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements MovieListAdapter.
         rating = new ArrayList<>();
         titles = new ArrayList<>();
         ytTrailerCodes = new ArrayList<>();
+        genres = new ArrayList<>();
         Call<GetMovieResponse> call = Retrofit.getService().getMovies(query, limit);
         call.enqueue(new Callback<GetMovieResponse>() {
             @Override
@@ -107,6 +109,7 @@ public class MainActivity extends AppCompatActivity implements MovieListAdapter.
                                 runtime.add(obj.getString("runtime"));
                                 rating.add(obj.getString("rating"));
                                 titles.add(obj.getString("title"));
+                                genres.add(obj.getString("genres"));
                                 movies.add(movie);
                                 movieListAdapter = new MovieListAdapter(movies, MainActivity.this, MainActivity.this);
                                 activityMainBinding.movieRecycler.setHasFixedSize(true);
@@ -161,6 +164,7 @@ public class MainActivity extends AppCompatActivity implements MovieListAdapter.
         bundle.putSerializable("rating", rating.get(position));
         bundle.putSerializable("title", titles.get(position));
         bundle.putSerializable("yt_trailer_code",ytTrailerCodes.get(position));
+        bundle.putSerializable("genres",genres.get(position));
         startActivity(new Intent(this, MovieDetailActivity.class).putExtras(bundle));
 
     }
