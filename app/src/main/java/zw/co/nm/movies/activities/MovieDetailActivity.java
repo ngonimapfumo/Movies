@@ -57,7 +57,7 @@ public class MovieDetailActivity extends YouTubeBaseActivity {
         activityMovieDetailBinding.runtimeTxt.setText(String.format("%s minutes", runtime));
         activityMovieDetailBinding.genres.setText(genres);
 
-        activityMovieDetailBinding.backBtn.setOnClickListener(view -> {onBackPressed();});
+        activityMovieDetailBinding.backText.setOnClickListener(view -> {onBackPressed();});
         if (trailerCode.equals("")) {
            activityMovieDetailBinding.youtubePlayer.setVisibility(View.GONE);
            activityMovieDetailBinding.backgroundImm.setVisibility(View.VISIBLE);
@@ -75,9 +75,7 @@ public class MovieDetailActivity extends YouTubeBaseActivity {
                 Toast.makeText(MovieDetailActivity.this, "video initialization failed", Toast.LENGTH_SHORT).show();
             }
         };
-        if (activityMovieDetailBinding.youtubePlayer != null) {
-            activityMovieDetailBinding.youtubePlayer.initialize(BuildConfig.API_KEY, listener);
-        }
+        activityMovieDetailBinding.youtubePlayer.initialize(BuildConfig.API_KEY, listener);
 
 
     }

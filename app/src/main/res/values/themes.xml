@@ -5,7 +5,7 @@
        <!-- <item name="android:windowFullscreen">true</item>-->
         <!--<item name="android:fontFamily">@font/bdon</item>-->
        <!-- <item name="android:textColor">@color/red</item>-->
-        <item name="colorPrimary">#1DA569</item>
+        <item name="colorPrimary">@color/green</item>
         <item name="colorPrimaryVariant">@color/black</item>
         <item name="colorOnPrimary">@color/orange</item>
         <!-- Secondary brand color. -->
