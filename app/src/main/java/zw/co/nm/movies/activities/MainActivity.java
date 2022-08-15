@@ -7,12 +7,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.google.gson.Gson;
@@ -22,9 +21,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 import retrofit2.Call;
@@ -78,49 +75,55 @@ public class MainActivity extends AppCompatActivity implements MovieListAdapter.
         call.enqueue(new Callback<GetMovieResponse>() {
             @Override
             public void onResponse(@NonNull Call<GetMovieResponse> call, @NonNull Response<GetMovieResponse> response) {
+                if (response.isSuccessful()) {
 
-                if (response.body().getData().movie_count == 0) {
-                    activityMainBinding.progBar.setVisibility(View.GONE);
-                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                    builder.setMessage("No Movies found for this search, please try again");
-                    builder.setPositiveButton("OKAY", (dialogInterface, i) -> {
-                                testOne("", 20);
-                            })
-                            .setCancelable(false)
-                            .show();
+                    if (response.body().getData().movie_count == 0) {
+                        activityMainBinding.progBar.setVisibility(View.GONE);
+                        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                        builder.setMessage("No Movies found for this search, please try again");
+                        builder.setPositiveButton("OKAY", (dialogInterface, i) -> {
+                                    testOne("", 20);
+                                })
+                                .setCancelable(false)
+                                .show();
 
-                } else {
-                    activityMainBinding.progBar.setVisibility(View.GONE);
-                    String resString = null;
-                    if (response.body() != null) {
-                        resString = new Gson().toJson(response.body().getData().movies);
-                    }
-                    JSONArray jsonArray = Utils.getJsonArray(resString);
-                    if (jsonArray != null && jsonArray.length() > 0) {
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            JSONObject obj = Utils.getJsonObject(jsonArray, i);
-                            Movie movie = new Gson().fromJson(Objects.requireNonNull(obj).toString(), Movie.class);
-                            try {
-                                ytTrailerCodes.add(obj.getString("yt_trailer_code"));
-                                movieSummary.add(obj.getString("summary"));
-                                mediumCoverImage.add(obj.getString("medium_cover_image"));
-                                backgroundImageOriginal.add(obj.getString("background_image"));
-                                year.add(obj.getString("year"));
-                                runtime.add(obj.getString("runtime"));
-                                rating.add(obj.getString("rating"));
-                                titles.add(obj.getString("title"));
-                                genres.add(obj.getString("genres"));
-                                movies.add(movie);
-                                movieListAdapter = new MovieListAdapter(movies, MainActivity.this, MainActivity.this);
-                                activityMainBinding.movieRecycler.setHasFixedSize(true);
-                                activityMainBinding.movieRecycler.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));
-                                activityMainBinding.movieRecycler.setAdapter(movieListAdapter);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
+                    } else {
+                        activityMainBinding.progBar.setVisibility(View.GONE);
+                        String resString = null;
+                        if (response.body() != null) {
+                            resString = new Gson().toJson(response.body().getData().movies);
+                        }
+                        JSONArray jsonArray = Utils.getJsonArray(resString);
+                        if (jsonArray != null && jsonArray.length() > 0) {
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject obj = Utils.getJsonObject(jsonArray, i);
+                                Movie movie = new Gson().fromJson(Objects.requireNonNull(obj).toString(), Movie.class);
+                                try {
+                                    ytTrailerCodes.add(obj.getString("yt_trailer_code"));
+                                    movieSummary.add(obj.getString("summary"));
+                                    mediumCoverImage.add(obj.getString("medium_cover_image"));
+                                    backgroundImageOriginal.add(obj.getString("background_image"));
+                                    year.add(obj.getString("year"));
+                                    runtime.add(obj.getString("runtime"));
+                                    rating.add(obj.getString("rating"));
+                                    titles.add(obj.getString("title"));
+                                    genres.add(obj.getString("genres"));
+                                    movies.add(movie);
+                                    movieListAdapter = new MovieListAdapter(movies, MainActivity.this, MainActivity.this);
+                                    activityMainBinding.movieRecycler.setHasFixedSize(true);
+                                    activityMainBinding.movieRecycler.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));
+                                    activityMainBinding.movieRecycler.setAdapter(movieListAdapter);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
                             }
-
                         }
                     }
+                }else {
+                    //todo: handle this
+                    activityMainBinding.progBar.setVisibility(View.GONE);
+                    Toast.makeText(MainActivity.this, "Error, Please try again later", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -163,8 +166,8 @@ public class MainActivity extends AppCompatActivity implements MovieListAdapter.
         bundle.putSerializable("year", year.get(position));
         bundle.putSerializable("rating", rating.get(position));
         bundle.putSerializable("title", titles.get(position));
-        bundle.putSerializable("yt_trailer_code",ytTrailerCodes.get(position));
-        bundle.putSerializable("genres",genres.get(position));
+        bundle.putSerializable("yt_trailer_code", ytTrailerCodes.get(position));
+        bundle.putSerializable("genres", genres.get(position));
         startActivity(new Intent(this, MovieDetailActivity.class).putExtras(bundle));
 
     }
