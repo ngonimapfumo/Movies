@@ -57,7 +57,7 @@ public class MovieDetailActivity extends YouTubeBaseActivity {
         activityMovieDetailBinding.runtimeTxt.setText(String.format("%s minutes", runtime));
         activityMovieDetailBinding.genres.setText(genres);
 
-        activityMovieDetailBinding.backText.setOnClickListener(view -> {onBackPressed();});
+        activityMovieDetailBinding.backImg.setOnClickListener(view -> {onBackPressed();});
         if (trailerCode.equals("")) {
            activityMovieDetailBinding.youtubePlayer.setVisibility(View.GONE);
            activityMovieDetailBinding.backgroundImm.setVisibility(View.VISIBLE);
