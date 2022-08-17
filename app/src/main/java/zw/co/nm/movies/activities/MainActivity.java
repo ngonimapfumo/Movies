@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements MovieListAdapter.
                             }
                         }
                     }
-                }else {
+                } else {
                     //todo: handle this
                     activityMainBinding.progBar.setVisibility(View.GONE);
                     Toast.makeText(MainActivity.this, "Error, Please try again later", Toast.LENGTH_SHORT).show();
@@ -140,9 +140,12 @@ public class MainActivity extends AppCompatActivity implements MovieListAdapter.
         inflater.inflate(R.menu.options_menu, menu);
         MenuItem menuItem = menu.findItem(R.id.search);
         SearchView searchView = (SearchView) menuItem.getActionView();
+        searchView.onActionViewExpanded();
+        searchView.requestFocusFromTouch();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
+
                 testOne(s, 50);
                 return true;
             }
