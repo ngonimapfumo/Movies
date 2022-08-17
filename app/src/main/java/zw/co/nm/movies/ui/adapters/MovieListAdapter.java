@@ -12,6 +12,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import zw.co.nm.movies.R;
 import zw.co.nm.movies.databinding.ItemMovieDetailBinding;
 import zw.co.nm.movies.models.Movie;
 
@@ -36,7 +37,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull MovieListAdapter.ViewHolder holder, int position) {
-        Picasso.get().load(localDataSet.get(position).getLarge_cover_image()).into(holder.itemMovieDetailBinding.imageView);
+        Picasso.get().load(localDataSet.get(position).getLarge_cover_image()).placeholder(R.drawable.sample_cover_large).error(R.drawable.sample_cover_large).into(holder.itemMovieDetailBinding.imageView);
        /* holder.itemMovieDetailBinding.movieTitle.setText(localDataSet.get(position).getTitle());
         holder.itemMovieDetailBinding.yearTxt.setText(localDataSet.get(position).getYear());
         holder.itemMovieDetailBinding.lanTxt.setText(localDataSet.get(position).getLanguage());
