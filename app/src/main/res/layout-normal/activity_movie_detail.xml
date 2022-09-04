@@ -236,4 +236,14 @@
         tools:text="Action, \nDrama,ThrillerAction,\n Drama,Thriller" />
 
 
+    <!--<androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/cast_recycler"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/textView5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/cardView"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />-->
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
