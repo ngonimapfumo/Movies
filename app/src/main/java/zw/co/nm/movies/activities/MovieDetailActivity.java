@@ -27,6 +27,8 @@ public class MovieDetailActivity extends YouTubeBaseActivity {
     private String movieTitle;
     private String imgUrl;
     private String movieYear;
+    private String movieSummary;
+    private String movieMPARating;
 
     //  private MovieDetailViewModel movieDetailViewModel;
     @Override
@@ -52,6 +54,8 @@ public class MovieDetailActivity extends YouTubeBaseActivity {
                     ytTrailer = response.body().getData().movie.yt_trailer_code;
                     movieTitle = response.body().getData().movie.title;
                     movieYear = String.valueOf(response.body().getData().movie.year);
+                    movieSummary= response.body().getData().movie.description_intro;
+                    movieMPARating= response.body().getData().movie.mpa_rating;
                     Picasso.get().load(imgUrl).placeholder(R.drawable.sample_cover_large).into(activityMovieDetailBinding.imgv);
 
 
@@ -77,6 +81,11 @@ public class MovieDetailActivity extends YouTubeBaseActivity {
                     }
                     activityMovieDetailBinding.movieTitleTxt.setText(movieTitle);
                     activityMovieDetailBinding.yearTxt.setText(movieYear);
+                    activityMovieDetailBinding.movieSummaryTxt.setText(movieSummary);
+                    if(movieMPARating.equals("")){
+                        activityMovieDetailBinding.movieMpaRatingTxt.setText("N/A");
+                    }else
+                    activityMovieDetailBinding.movieMpaRatingTxt.setText(movieMPARating);
 
 
                 }
