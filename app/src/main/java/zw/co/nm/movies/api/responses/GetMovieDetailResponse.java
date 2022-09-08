@@ -6,7 +6,7 @@ public class GetMovieDetailResponse {
 
     String status;
     String status_message;
-    GetMovieResponse.Data data;
+    Data data;
 
     public String getStatus() {
         return status;
@@ -24,7 +24,7 @@ public class GetMovieDetailResponse {
         this.status_message = status_message;
     }
 
-    public GetMovieResponse.Data getData() {
+    public Data getData() {
         return data;
     }
 
@@ -90,7 +90,7 @@ public class GetMovieDetailResponse {
         public int seeds;
         public int peers;
         public String size;
-        public int size_bytes;
+        public float size_bytes;
         public String date_uploaded;
         public int date_uploaded_unix;
     }

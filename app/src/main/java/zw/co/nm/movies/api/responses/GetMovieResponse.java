@@ -85,7 +85,7 @@ public class GetMovieResponse {
         public int seeds;
         public int peers;
         public String size;
-        public int size_bytes;
+        public float size_bytes;
         public String date_uploaded;
         public int date_uploaded_unix;
     }
