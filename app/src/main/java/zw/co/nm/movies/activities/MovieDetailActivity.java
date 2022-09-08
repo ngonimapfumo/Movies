@@ -41,28 +41,14 @@ public class MovieDetailActivity extends YouTubeBaseActivity {
       //  movieDetailViewModel = new ViewModelProvider((ViewModelStoreOwner) this).get(MovieDetailViewModel.class);
 
         extras = getIntent().getExtras();
-        imgUrl = extras.getString("medium_cover_image");
-        backgroundImgUrl = extras.getString("background_image_original");
-        summary = extras.getString("summary");
-        year = extras.getString("year");
-        runtime = extras.getString("runtime");
-        rating = extras.getString("rating");
-        title = extras.getString("title");
-        trailerCode = extras.getString("yt_trailer_code");
-        genres = extras.getString("genres");
         Picasso.get().load(imgUrl).into(activityMovieDetailBinding.imgv);
-        activityMovieDetailBinding.summaryTxt.setText(summary);
-        activityMovieDetailBinding.yearTxt.setText(year);
-        activityMovieDetailBinding.ratingTxt.setText(rating);
-        activityMovieDetailBinding.runtimeTxt.setText(String.format("%s minutes", runtime));
-        activityMovieDetailBinding.genres.setText(genres);
 
         activityMovieDetailBinding.backImg.setOnClickListener(view -> {onBackPressed();});
-        if (trailerCode.equals("")) {
+        /*if (trailerCode.equals("")) {
            activityMovieDetailBinding.youtubePlayer.setVisibility(View.GONE);
            activityMovieDetailBinding.backgroundImm.setVisibility(View.VISIBLE);
            activityMovieDetailBinding.trailer404.setVisibility(View.VISIBLE);
-        }
+        }*/
 
         YouTubePlayer.OnInitializedListener listener = new YouTubePlayer.OnInitializedListener() {
             @Override
