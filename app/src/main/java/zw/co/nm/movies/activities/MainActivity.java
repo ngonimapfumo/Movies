@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements MovieListAdapter.
     private List<String> titles;
     private List<String> ytTrailerCodes;
     private List<String> genres;
+    private List<String> id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +77,6 @@ public class MainActivity extends AppCompatActivity implements MovieListAdapter.
             @Override
             public void onResponse(@NonNull Call<GetMovieResponse> call, @NonNull Response<GetMovieResponse> response) {
                 if (response.isSuccessful()) {
-
                     if (response.body().getData().movie_count == 0) {
                         activityMainBinding.progBar.setVisibility(View.GONE);
                         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
