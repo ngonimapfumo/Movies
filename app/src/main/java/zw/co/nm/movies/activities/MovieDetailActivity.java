@@ -20,16 +20,7 @@ import zw.co.nm.movies.databinding.ActivityMovieDetailBinding;
 public class MovieDetailActivity extends YouTubeBaseActivity {
 
     private ActivityMovieDetailBinding activityMovieDetailBinding;
-    private Bundle extras;
-    private String imgUrl;
-    private String backgroundImgUrl;
-    private String summary;
-    private String year;
-    private String runtime;
-    private String rating;
-    private String title;
-    private String trailerCode;
-    private String genres;
+    private String movieId;
 
   //  private MovieDetailViewModel movieDetailViewModel;
 
@@ -40,8 +31,8 @@ public class MovieDetailActivity extends YouTubeBaseActivity {
         setContentView(activityMovieDetailBinding.getRoot());
       //  movieDetailViewModel = new ViewModelProvider((ViewModelStoreOwner) this).get(MovieDetailViewModel.class);
 
-        extras = getIntent().getExtras();
-        Picasso.get().load(imgUrl).into(activityMovieDetailBinding.imgv);
+        movieId = getIntent().getStringExtra("movieId");
+        Picasso.get().load("imgUrl").into(activityMovieDetailBinding.imgv);
 
         activityMovieDetailBinding.backImg.setOnClickListener(view -> {onBackPressed();});
         /*if (trailerCode.equals("")) {
@@ -53,7 +44,7 @@ public class MovieDetailActivity extends YouTubeBaseActivity {
         YouTubePlayer.OnInitializedListener listener = new YouTubePlayer.OnInitializedListener() {
             @Override
             public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
-                youTubePlayer.cueVideo(trailerCode);
+                youTubePlayer.cueVideo("PmeRjrz8KVw");
             }
 
             @Override
