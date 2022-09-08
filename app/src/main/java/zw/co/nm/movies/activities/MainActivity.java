@@ -40,15 +40,7 @@ public class MainActivity extends AppCompatActivity implements MovieListAdapter.
     private MovieListAdapter movieListAdapter;
     private List<Movie> movies;
     private ActivityMainBinding activityMainBinding;
-    private List<String> movieSummary;
-    private List<String> mediumCoverImage;
-    private List<String> backgroundImageOriginal;
-    private List<String> year;
-    private List<String> runtime;
-    private List<String> rating;
-    private List<String> titles;
-    private List<String> ytTrailerCodes;
-    private List<String> genres;
+    private List<String> movieId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,22 +53,13 @@ public class MainActivity extends AppCompatActivity implements MovieListAdapter.
 
     private void testOne(String query, int limit) {
         activityMainBinding.progBar.setVisibility(View.VISIBLE);
+        movieId= new ArrayList<>();
         movies = new ArrayList<>();
-        movieSummary = new ArrayList<>();
-        mediumCoverImage = new ArrayList<>();
-        backgroundImageOriginal = new ArrayList<>();
-        runtime = new ArrayList<>();
-        year = new ArrayList<>();
-        rating = new ArrayList<>();
-        titles = new ArrayList<>();
-        ytTrailerCodes = new ArrayList<>();
-        genres = new ArrayList<>();
         Call<GetMovieResponse> call = Retrofit.getService().getMovies(query, limit);
         call.enqueue(new Callback<GetMovieResponse>() {
             @Override
             public void onResponse(@NonNull Call<GetMovieResponse> call, @NonNull Response<GetMovieResponse> response) {
                 if (response.isSuccessful()) {
-
                     if (response.body().getData().movie_count == 0) {
                         activityMainBinding.progBar.setVisibility(View.GONE);
                         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
@@ -99,15 +82,7 @@ public class MainActivity extends AppCompatActivity implements MovieListAdapter.
                                 JSONObject obj = Utils.getJsonObject(jsonArray, i);
                                 Movie movie = new Gson().fromJson(Objects.requireNonNull(obj).toString(), Movie.class);
                                 try {
-                                    ytTrailerCodes.add(obj.getString("yt_trailer_code"));
-                                    movieSummary.add(obj.getString("summary"));
-                                    mediumCoverImage.add(obj.getString("medium_cover_image"));
-                                    backgroundImageOriginal.add(obj.getString("background_image"));
-                                    year.add(obj.getString("year"));
-                                    runtime.add(obj.getString("runtime"));
-                                    rating.add(obj.getString("rating"));
-                                    titles.add(obj.getString("title"));
-                                    genres.add(obj.getString("genres"));
+                                    movieId.add(obj.getString("id"));
                                     movies.add(movie);
                                     movieListAdapter = new MovieListAdapter(movies, MainActivity.this, MainActivity.this);
                                     activityMainBinding.movieRecycler.setHasFixedSize(true);
@@ -160,18 +135,7 @@ public class MainActivity extends AppCompatActivity implements MovieListAdapter.
     }
 
     @Override
-    public void onMovieItemClick(int position) {
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("summary", movieSummary.get(position));
-        bundle.putSerializable("medium_cover_image", mediumCoverImage.get(position));
-        bundle.putSerializable("background_image_original", backgroundImageOriginal.get(position));
-        bundle.putSerializable("runtime", runtime.get(position));
-        bundle.putSerializable("year", year.get(position));
-        bundle.putSerializable("rating", rating.get(position));
-        bundle.putSerializable("title", titles.get(position));
-        bundle.putSerializable("yt_trailer_code", ytTrailerCodes.get(position));
-        bundle.putSerializable("genres", genres.get(position));
-        startActivity(new Intent(this, MovieDetailActivity.class).putExtras(bundle));
+    public void onMovieItemClick(int position) { startActivity(new Intent(this, MovieDetailActivity.class).putExtra("movieId",movieId.get(position)));
 
     }
 }

@@ -2,7 +2,8 @@ package zw.co.nm.movies.api.responses;
 
 import java.util.ArrayList;
 
-public class GetMovieResponse {
+public class GetMovieDetailResponse {
+
     String status;
     String status_message;
     Data data;
@@ -27,11 +28,9 @@ public class GetMovieResponse {
         return data;
     }
 
+
     public class Data {
-        public int movie_count;
-        public int limit;
-        public int page_number;
-        public ArrayList<Movie> movies;
+        public Movie movie;
     }
 
     public class Meta {
@@ -53,9 +52,10 @@ public class GetMovieResponse {
         public double rating;
         public int runtime;
         public ArrayList<String> genres;
-        public String summary;
+        public int download_count;
+        public int like_count;
+        public String description_intro;
         public String description_full;
-        public String synopsis;
         public String yt_trailer_code;
         public String language;
         public String mpa_rating;
@@ -64,8 +64,13 @@ public class GetMovieResponse {
         public String small_cover_image;
         public String medium_cover_image;
         public String large_cover_image;
-        public String state;
-      //  public ArrayList<Torrent> torrents;
+        public String medium_screenshot_image1;
+        public String medium_screenshot_image2;
+        public String medium_screenshot_image3;
+        public String large_screenshot_image1;
+        public String large_screenshot_image2;
+        public String large_screenshot_image3;
+        public ArrayList<Torrent> torrents;
         public String date_uploaded;
         public int date_uploaded_unix;
     }
@@ -89,5 +94,6 @@ public class GetMovieResponse {
         public String date_uploaded;
         public int date_uploaded_unix;
     }
+
 
 }
