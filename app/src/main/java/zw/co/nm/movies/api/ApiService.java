@@ -18,4 +18,7 @@ public interface ApiService {
     @GET("movie_details.json?")
     Call<GetMovieDetailResponse> getMovieDetail(@Query("movie_id")String query,@Query("with_cast")Boolean withCast);
 
+    @GET("movie_suggestions.json?")
+    Call<GetMovieResponse> getMovieSuggestions(@Query("movie_id")String movieId);
+
 }
