@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Movies</string>
     <string name="search_title">Search</string>
+    <string name="about_this_movie">About this movie</string>
+    <string name="duration">Duration</string>
+    <string name="trailer_not_available">TRAILER NOT AVAILABLE</string>
 </resources>

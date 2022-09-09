@@ -1,9 +1,12 @@
 package zw.co.nm.movies.activities;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 
 import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
@@ -29,35 +32,43 @@ public class MovieDetailActivity extends YouTubeBaseActivity {
     private String movieYear;
     private String movieSummary;
     private String movieMPARating;
+    private String movieRating;
+    private int movieDuration;
 
-    //  private MovieDetailViewModel movieDetailViewModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityMovieDetailBinding = ActivityMovieDetailBinding.inflate(getLayoutInflater());
         setContentView(activityMovieDetailBinding.getRoot());
-        //  movieDetailViewModel = new ViewModelProvider((ViewModelStoreOwner) this).get(MovieDetailViewModel.class);
         String movieId = getIntent().getStringExtra("movieId");
         getMovieDetail(movieId);
         activityMovieDetailBinding.backImg.setOnClickListener(view -> {
             onBackPressed();
         });
+        activityMovieDetailBinding.mainLayout.setVisibility(View.GONE);
     }
 
     private void getMovieDetail(String id) {
         Call<GetMovieDetailResponse> call = Retrofit.getService().getMovieDetail(id, true);
         call.enqueue(new Callback<GetMovieDetailResponse>() {
+            @SuppressLint("DefaultLocale")
             @Override
-            public void onResponse(Call<GetMovieDetailResponse> call, Response<GetMovieDetailResponse> response) {
+            public void onResponse(Call<GetMovieDetailResponse> call, @NonNull Response<GetMovieDetailResponse> response) {
                 if (response.isSuccessful()) {
-                    imgUrl = response.body().getData().movie.medium_cover_image;
-                    ytTrailer = response.body().getData().movie.yt_trailer_code;
-                    movieTitle = response.body().getData().movie.title;
-                    movieYear = String.valueOf(response.body().getData().movie.year);
-                    movieSummary= response.body().getData().movie.description_intro;
-                    movieMPARating= response.body().getData().movie.mpa_rating;
-                    Picasso.get().load(imgUrl).placeholder(R.drawable.sample_cover_large).into(activityMovieDetailBinding.imgv);
-
+                    activityMovieDetailBinding.mainLayout.setVisibility(View.VISIBLE);
+                    if (response.body() != null) {
+                        imgUrl = response.body().getData().movie.medium_cover_image;
+                        ytTrailer = response.body().getData().movie.yt_trailer_code;
+                        movieTitle = response.body().getData().movie.title;
+                        movieYear = String.valueOf(response.body().getData().movie.year);
+                        movieSummary = response.body().getData().movie.description_intro;
+                        movieMPARating = response.body().getData().movie.mpa_rating;
+                        movieDuration = response.body().getData().movie.runtime;
+                        movieRating = String.valueOf(response.body().getData().movie.rating);
+                    }
+                    Picasso.get().load(imgUrl)
+                            .placeholder(R.drawable.sample_cover_large)
+                            .into(activityMovieDetailBinding.imgv);
 
                     if (response.body().getData().movie.yt_trailer_code.equals("")) {
                         activityMovieDetailBinding.youtubePlayer.setVisibility(View.GONE);
@@ -82,14 +93,13 @@ public class MovieDetailActivity extends YouTubeBaseActivity {
                     activityMovieDetailBinding.movieTitleTxt.setText(movieTitle);
                     activityMovieDetailBinding.yearTxt.setText(movieYear);
                     activityMovieDetailBinding.movieSummaryTxt.setText(movieSummary);
-                    if(movieMPARating.equals("")){
+                    activityMovieDetailBinding.durationTxt.setText(String.format(" %dmins", movieDuration));
+                    activityMovieDetailBinding.movieRatingTxt.setText(movieRating);
+                    if (movieMPARating.equals("")) {
                         activityMovieDetailBinding.movieMpaRatingTxt.setText("N/A");
-                    }else
-                    activityMovieDetailBinding.movieMpaRatingTxt.setText(movieMPARating);
-
-
+                    } else
+                        activityMovieDetailBinding.movieMpaRatingTxt.setText(movieMPARating);
                 }
-
             }
 
             @Override

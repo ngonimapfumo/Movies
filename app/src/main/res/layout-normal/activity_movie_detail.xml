@@ -4,7 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.MovieDetailActivity">
+    tools:context=".activities.MovieDetailActivity"
+    android:id="@+id/mainLayout">
+
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/backView"
@@ -27,19 +30,6 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
-        <!-- <TextView
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Movies"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/back_img"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.448" />-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -112,7 +102,7 @@
         app:layout_constraintStart_toEndOf="@+id/cardView"
         app:layout_constraintTop_toTopOf="@+id/cardView"
         app:layout_constraintVertical_bias="0.0"
-        tools:text="Saloumdsnbdmsdbmndssssssssssssssccccccxcccccccccccc" />
+        tools:text="The Green Mile" />
 
     <TextView
 
@@ -130,7 +120,7 @@
         android:id="@+id/trailer_404"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TRAILER NOT AVAILABLE"
+        android:text="@string/trailer_not_available"
         android:textColor="#90ffffff"
         android:textSize="25sp"
         android:visibility="gone"
@@ -168,11 +158,11 @@
             tools:text="R" />
 
         <TextView
-            android:id="@+id/textView7"
+            android:id="@+id/durationTxt"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="2hr 26min"
+            tools:text="2hr 26min"
             android:textAlignment="center" />
     </LinearLayout>
 
@@ -195,7 +185,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Reviews"
+            android:text="IMdb Rating"
             android:textAlignment="center"
             android:textStyle="bold" />
 
@@ -213,17 +203,19 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Duration"
+            android:text="@string/duration"
             android:textAlignment="center"
             android:textStyle="bold" />
     </LinearLayout>
+
+
 
     <TextView
         android:id="@+id/textView8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:text="About this movie"
+        android:text="@string/about_this_movie"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
