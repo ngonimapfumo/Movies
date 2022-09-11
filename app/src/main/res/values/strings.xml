@@ -4,7 +4,8 @@
     <string name="about_this_movie">About this movie</string>
     <string name="duration">Duration</string>
     <string name="trailer_not_available">TRAILER NOT AVAILABLE</string>
-    <string name="suggested_movies">Browse more movies</string>
+    <string name="suggested_movies">Suggested movies</string>
     <string name="imdb_rating">IMdb Rating</string>
     <string name="mpa_rating">MPA Rating</string>
+    <string name="no_info_avail">No information available</string>
 </resources>

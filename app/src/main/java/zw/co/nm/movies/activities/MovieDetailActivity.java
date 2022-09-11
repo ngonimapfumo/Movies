@@ -66,6 +66,7 @@ public class MovieDetailActivity extends YouTubeBaseActivity implements MovieLis
             onBackPressed();
         });
         activityMovieDetailBinding.mainLayout.setVisibility(View.GONE);
+
     }
 
     private void getMovieDetail(String id) {
@@ -112,13 +113,14 @@ public class MovieDetailActivity extends YouTubeBaseActivity implements MovieLis
                     }
                     activityMovieDetailBinding.movieTitleTxt.setText(movieTitle);
                     activityMovieDetailBinding.yearTxt.setText(movieYear);
-                    activityMovieDetailBinding.movieSummaryTxt.setText(movieSummary);
+                    if (movieSummary.equals("")) {
+                        activityMovieDetailBinding.movieSummaryTxt.setText(R.string.no_info_avail);
+                    } else activityMovieDetailBinding.movieSummaryTxt.setText(movieSummary);
                     activityMovieDetailBinding.durationTxt.setText(String.format(" %dmins", movieDuration));
                     activityMovieDetailBinding.movieRatingTxt.setText(movieRating);
                     if (movieMPARating.equals("")) {
                         activityMovieDetailBinding.movieMpaRatingTxt.setText("N/A");
-                    } else
-                        activityMovieDetailBinding.movieMpaRatingTxt.setText(movieMPARating);
+                    } else activityMovieDetailBinding.movieMpaRatingTxt.setText(movieMPARating);
                 }
             }
 
@@ -131,6 +133,7 @@ public class MovieDetailActivity extends YouTubeBaseActivity implements MovieLis
     }
 
     private void getMovieSuggestions(String movieId) {
+        activityMovieDetailBinding.moreMoviesTxt.setVisibility(View.GONE);
         movies = new ArrayList<>();
         movieIds = new ArrayList<>();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -139,26 +142,29 @@ public class MovieDetailActivity extends YouTubeBaseActivity implements MovieLis
         call.enqueue(new Callback<GetMovieResponse>() {
             @Override
             public void onResponse(Call<GetMovieResponse> call, Response<GetMovieResponse> response) {
-                String resString = null;
-                if (response.body() != null) {
-                    resString = new Gson().toJson(response.body().getData().movies);
-                }
-                JSONArray jsonArray = Utils.getJsonArray(resString);
-                if (jsonArray != null && jsonArray.length() > 0) {
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        JSONObject obj = Utils.getJsonObject(jsonArray, i);
-                        Movie movie = new Gson().fromJson(Objects.requireNonNull(obj).toString(), Movie.class);
-                        movies.add(movie);
-                        try {
-                            movieIds.add(obj.getString("id"));
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        movieListAdapter = new MovieListAdapter(movies, MovieDetailActivity.this, MovieDetailActivity.this);
-                        activityMovieDetailBinding.recyclerView.setHasFixedSize(true);
-                        activityMovieDetailBinding.recyclerView.setLayoutManager(linearLayoutManager);
-                        activityMovieDetailBinding.recyclerView.setAdapter(movieListAdapter);
+                if (response.isSuccessful()) {
+                    activityMovieDetailBinding.moreMoviesTxt.setVisibility(View.VISIBLE);
+                    String resString = null;
+                    if (response.body() != null) {
+                        resString = new Gson().toJson(response.body().getData().movies);
+                    }
+                    JSONArray jsonArray = Utils.getJsonArray(resString);
+                    if (jsonArray != null && jsonArray.length() > 0) {
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject obj = Utils.getJsonObject(jsonArray, i);
+                            Movie movie = new Gson().fromJson(Objects.requireNonNull(obj).toString(), Movie.class);
+                            movies.add(movie);
+                            try {
+                                movieIds.add(obj.getString("id"));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            movieListAdapter = new MovieListAdapter(movies, MovieDetailActivity.this, MovieDetailActivity.this);
+                            activityMovieDetailBinding.recyclerView.setHasFixedSize(true);
+                            activityMovieDetailBinding.recyclerView.setLayoutManager(linearLayoutManager);
+                            activityMovieDetailBinding.recyclerView.setAdapter(movieListAdapter);
 
+                        }
                     }
                 }
             }
