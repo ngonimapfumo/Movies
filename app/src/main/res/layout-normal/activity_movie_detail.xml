@@ -80,6 +80,7 @@
 
 
     <ScrollView
+        android:scrollbars="vertical"
         android:id="@+id/scroller"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -135,14 +136,24 @@
                 android:id="@+id/yearTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="5dp"
+                android:paddingStart="5dp"
                 app:layout_constraintEnd_toEndOf="@+id/movieTitleTxt"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/movieTitleTxt"
                 app:layout_constraintTop_toBottomOf="@+id/movieTitleTxt"
                 tools:text="2011" />
 
-
+            <TextView
+                android:paddingStart="5dp"
+                android:id="@+id/genresTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                tools:text="Action, Drama"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/yearTxt"
+                app:layout_constraintTop_toBottomOf="@+id/yearTxt" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/detailsView"
@@ -278,16 +289,22 @@
 
                 </androidx.recyclerview.widget.RecyclerView>
 
+                <ImageView
+                    android:id="@+id/imageView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_baseline_arrow_forward_24"
+                    app:layout_constraintBottom_toBottomOf="@+id/textView8"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.927"
+                    app:layout_constraintStart_toEndOf="@+id/textView8"
+                    app:layout_constraintTop_toTopOf="@+id/textView8"
+                    app:layout_constraintVertical_bias="1.0" />
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <!--<TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="dsdsddd"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/detailsView" />-->
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
