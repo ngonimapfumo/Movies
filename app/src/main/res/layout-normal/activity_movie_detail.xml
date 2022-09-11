@@ -65,6 +65,7 @@
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
     <TextView
         android:id="@+id/trailer_404"
         android:layout_width="wrap_content"
@@ -80,10 +81,10 @@
 
 
     <ScrollView
-        android:scrollbars="vertical"
         android:id="@+id/scroller"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -144,16 +145,16 @@
                 tools:text="2011" />
 
             <TextView
-                android:paddingStart="5dp"
                 android:id="@+id/genresTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                tools:text="Action, Drama"
+                android:paddingStart="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/yearTxt"
-                app:layout_constraintTop_toBottomOf="@+id/yearTxt" />
+                app:layout_constraintTop_toBottomOf="@+id/yearTxt"
+                tools:text="Action, Drama" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/detailsView"
@@ -240,18 +241,44 @@
                         android:textStyle="bold" />
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/textView8"
-                    android:layout_width="wrap_content"
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_marginTop="20dp"
+                    android:id="@+id/aboutMovieTxt"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="28dp"
-                    android:text="@string/about_this_movie"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="@+id/linearLayout"
                     app:layout_constraintHorizontal_bias="0.061"
                     app:layout_constraintStart_toStartOf="@+id/linearLayout"
-                    app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+                    app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="About this movie"
+                        android:textSize="20sp"
+                        android:textStyle="italic"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/moreDetailImg"
+                        app:layout_constraintHorizontal_bias="0.075"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.518" />
+
+                    <ImageView
+                        android:id="@+id/moreDetailImg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="15dp"
+                        android:src="@drawable/ic_baseline_arrow_forward_24"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.983"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.0" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <TextView
                     android:id="@+id/movieSummaryTxt"
@@ -263,7 +290,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView8"
+                    app:layout_constraintTop_toBottomOf="@+id/aboutMovieTxt"
                     tools:text="Based on Stephen King's 1996 novel of the same name. Stars Tom Hanks as a death row corrections officer during the U.S. Great Depression who witnesses supernatural events that occur after an enigmatic inmate (Michael Clarke Duncan) is brought to his facility." />
 
                 <TextView
@@ -289,22 +316,7 @@
 
                 </androidx.recyclerview.widget.RecyclerView>
 
-                <ImageView
-                    android:id="@+id/imageView4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_baseline_arrow_forward_24"
-                    app:layout_constraintBottom_toBottomOf="@+id/textView8"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.927"
-                    app:layout_constraintStart_toEndOf="@+id/textView8"
-                    app:layout_constraintTop_toTopOf="@+id/textView8"
-                    app:layout_constraintVertical_bias="1.0" />
-
-
             </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

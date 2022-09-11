@@ -1,6 +1,7 @@
 package zw.co.nm.movies.activities;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -37,7 +38,7 @@ import zw.co.nm.movies.models.Movie;
 import zw.co.nm.movies.ui.adapters.MovieListAdapter;
 import zw.co.nm.movies.utils.Utils;
 
-public class MovieDetailActivity extends YouTubeBaseActivity implements MovieListAdapter.onMovieItemClick {
+public class MovieDetailActivity extends YouTubeBaseActivity implements MovieListAdapter.onMovieItemClick, View.OnClickListener {
 
     private ActivityMovieDetailBinding activityMovieDetailBinding;
     private static final String TAG = MovieDetailActivity.class.getSimpleName();
@@ -66,6 +67,7 @@ public class MovieDetailActivity extends YouTubeBaseActivity implements MovieLis
             onBackPressed();
         });
         activityMovieDetailBinding.mainLayout.setVisibility(View.GONE);
+        activityMovieDetailBinding.aboutMovieTxt.setOnClickListener(this);
 
     }
 
@@ -82,7 +84,7 @@ public class MovieDetailActivity extends YouTubeBaseActivity implements MovieLis
                         ytTrailer = response.body().getData().movie.yt_trailer_code;
                         movieTitle = response.body().getData().movie.title;
                         movieYear = String.valueOf(response.body().getData().movie.year);
-                        movieSummary = response.body().getData().movie.description_intro;
+                        movieSummary = response.body().getData().movie.description_full;
                         movieMPARating = response.body().getData().movie.mpa_rating;
                         movieDuration = response.body().getData().movie.runtime;
                         movieRating = String.valueOf(response.body().getData().movie.rating);
@@ -180,5 +182,13 @@ public class MovieDetailActivity extends YouTubeBaseActivity implements MovieLis
     @Override
     public void onMovieItemClick(int position) {
         startActivity(new Intent(this, MovieDetailActivity.class).putExtra("movieId", movieIds.get(position)));
+    }
+
+    @Override
+    public void onClick(View view) {
+        AlertDialog.Builder a = new AlertDialog.Builder(this);
+        a.setPositiveButton("Dismiss", null)
+                .setMessage(movieSummary)
+                .show();
     }
 }
