@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.android.youtube.player.YouTubeBaseActivity;
@@ -34,11 +35,13 @@ import zw.co.nm.movies.api.Retrofit;
 import zw.co.nm.movies.api.responses.GetMovieDetailResponse;
 import zw.co.nm.movies.api.responses.GetMovieResponse;
 import zw.co.nm.movies.databinding.ActivityMovieDetailBinding;
+import zw.co.nm.movies.models.Cast;
 import zw.co.nm.movies.models.Movie;
+import zw.co.nm.movies.ui.adapters.CastAdapter;
 import zw.co.nm.movies.ui.adapters.MovieListAdapter;
 import zw.co.nm.movies.utils.Utils;
 
-public class MovieDetailActivity extends YouTubeBaseActivity implements MovieListAdapter.onMovieItemClick, View.OnClickListener {
+public class MovieDetailActivity extends YouTubeBaseActivity implements MovieListAdapter.onMovieItemClick, View.OnClickListener, CastAdapter.onCastItemClick {
 
     private ActivityMovieDetailBinding activityMovieDetailBinding;
     private static final String TAG = MovieDetailActivity.class.getSimpleName();
@@ -51,9 +54,13 @@ public class MovieDetailActivity extends YouTubeBaseActivity implements MovieLis
     private String movieRating;
     private int movieDuration;
     private MovieListAdapter movieListAdapter;
+    private CastAdapter castAdapter;
+    private List<Cast> castList;
     private List<Movie> movies;
     private String movieId;
     private List<String> movieIds;
+    private List<GetMovieDetailResponse.Cast> cast;
+    private LinearLayoutManager linearLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,11 +79,13 @@ public class MovieDetailActivity extends YouTubeBaseActivity implements MovieLis
     }
 
     private void getMovieDetail(String id) {
+        castList = new ArrayList<>();
         Call<GetMovieDetailResponse> call = Retrofit.getService().getMovieDetail(id, true);
         call.enqueue(new Callback<GetMovieDetailResponse>() {
             @SuppressLint("DefaultLocale")
             @Override
             public void onResponse(Call<GetMovieDetailResponse> call, @NonNull Response<GetMovieDetailResponse> response) {
+
                 if (response.isSuccessful()) {
                     activityMovieDetailBinding.mainLayout.setVisibility(View.VISIBLE);
                     if (response.body() != null) {
@@ -123,6 +132,21 @@ public class MovieDetailActivity extends YouTubeBaseActivity implements MovieLis
                     if (movieMPARating.equals("")) {
                         activityMovieDetailBinding.movieMpaRatingTxt.setText("N/A");
                     } else activityMovieDetailBinding.movieMpaRatingTxt.setText(movieMPARating);
+
+
+                    JSONArray jsonArray = Utils.getJsonArray(new Gson().toJson(response.body().getData().movie.cast));
+                    if (jsonArray != null && jsonArray.length() > 0) {
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject obj = Utils.getJsonObject(jsonArray, i);
+                            Cast cast = new Gson().fromJson(Objects.requireNonNull(obj).toString(), Cast.class);
+                            castList.add(cast);
+                            castAdapter = new CastAdapter(castList, MovieDetailActivity.this, MovieDetailActivity.this);
+                            activityMovieDetailBinding.castRecycler.setHasFixedSize(true);
+                            activityMovieDetailBinding.castRecycler.setLayoutManager(new GridLayoutManager(MovieDetailActivity.this, 4));
+                            activityMovieDetailBinding.castRecycler.setAdapter(castAdapter);
+
+                        }
+                    }
                 }
             }
 
@@ -138,7 +162,7 @@ public class MovieDetailActivity extends YouTubeBaseActivity implements MovieLis
         activityMovieDetailBinding.moreMoviesTxt.setVisibility(View.GONE);
         movies = new ArrayList<>();
         movieIds = new ArrayList<>();
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         Call<GetMovieResponse> call = Retrofit.getService().getMovieSuggestions(movieId);
         call.enqueue(new Callback<GetMovieResponse>() {
@@ -190,5 +214,10 @@ public class MovieDetailActivity extends YouTubeBaseActivity implements MovieLis
         a.setPositiveButton("Dismiss", null)
                 .setMessage(movieSummary)
                 .show();
+    }
+
+    @Override
+    public void onCastItemClick(int position) {
+
     }
 }
