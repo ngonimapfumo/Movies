@@ -64,6 +64,7 @@ public class GetMovieDetailResponse {
         public String small_cover_image;
         public String medium_cover_image;
         public String large_cover_image;
+        public ArrayList<Cast> cast;
         public String medium_screenshot_image1;
         public String medium_screenshot_image2;
         public String medium_screenshot_image3;
@@ -93,6 +94,13 @@ public class GetMovieDetailResponse {
         public float size_bytes;
         public String date_uploaded;
         public int date_uploaded_unix;
+    }
+
+    public class Cast{
+        public String name;
+        public String character_name;
+        public String url_small_image;
+        public String imdb_code;
     }
 
 
