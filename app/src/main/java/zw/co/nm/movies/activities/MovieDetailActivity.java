@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.android.youtube.player.YouTubeBaseActivity;
@@ -37,11 +36,10 @@ import zw.co.nm.movies.api.responses.GetMovieResponse;
 import zw.co.nm.movies.databinding.ActivityMovieDetailBinding;
 import zw.co.nm.movies.models.Cast;
 import zw.co.nm.movies.models.Movie;
-import zw.co.nm.movies.ui.adapters.CastAdapter;
 import zw.co.nm.movies.ui.adapters.MovieListAdapter;
 import zw.co.nm.movies.utils.Utils;
 
-public class MovieDetailActivity extends YouTubeBaseActivity implements MovieListAdapter.onMovieItemClick, View.OnClickListener, CastAdapter.onCastItemClick {
+public class MovieDetailActivity extends YouTubeBaseActivity implements MovieListAdapter.onMovieItemClick, View.OnClickListener {
 
     private ActivityMovieDetailBinding activityMovieDetailBinding;
     private static final String TAG = MovieDetailActivity.class.getSimpleName();
@@ -54,12 +52,10 @@ public class MovieDetailActivity extends YouTubeBaseActivity implements MovieLis
     private String movieRating;
     private int movieDuration;
     private MovieListAdapter movieListAdapter;
-    private CastAdapter castAdapter;
-    private List<Cast> castList;
+    private List<String> castList;
     private List<Movie> movies;
     private String movieId;
     private List<String> movieIds;
-    private List<GetMovieDetailResponse.Cast> cast;
     private LinearLayoutManager linearLayoutManager;
 
     @Override
@@ -139,11 +135,9 @@ public class MovieDetailActivity extends YouTubeBaseActivity implements MovieLis
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject obj = Utils.getJsonObject(jsonArray, i);
                             Cast cast = new Gson().fromJson(Objects.requireNonNull(obj).toString(), Cast.class);
-                            castList.add(cast);
-                            castAdapter = new CastAdapter(castList, MovieDetailActivity.this, MovieDetailActivity.this);
-                            activityMovieDetailBinding.castRecycler.setHasFixedSize(true);
-                            activityMovieDetailBinding.castRecycler.setLayoutManager(new GridLayoutManager(MovieDetailActivity.this, 4));
-                            activityMovieDetailBinding.castRecycler.setAdapter(castAdapter);
+                            castList.add(cast.getName());
+                            activityMovieDetailBinding.castTxt.setText(String.format("Starring: %s", castList.toString()
+                                    .replace("[", "").replace("]", "")));
 
                         }
                     }
@@ -216,8 +210,4 @@ public class MovieDetailActivity extends YouTubeBaseActivity implements MovieLis
                 .show();
     }
 
-    @Override
-    public void onCastItemClick(int position) {
-
-    }
 }

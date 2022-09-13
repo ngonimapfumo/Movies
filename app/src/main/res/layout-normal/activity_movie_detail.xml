@@ -145,7 +145,10 @@
                 tools:text="2011" />
 
             <TextView
-                android:id="@+id/genresTxt"
+                android:ellipsize="end"
+                android:maxLines="5"
+                android:maxEms="14"
+                android:id="@+id/castTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
@@ -154,7 +157,7 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/yearTxt"
                 app:layout_constraintTop_toBottomOf="@+id/yearTxt"
-                tools:text="Action, Drama" />
+                tools:text="Starring: saaaaaaaaaaaaa aaaaaaaaa, assssssss, saaaaaaa ,asssssssssss" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/detailsView"
@@ -316,34 +319,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/moreMoviesTxt"
                     app:layout_constraintVertical_bias="0.0">
-
-                </androidx.recyclerview.widget.RecyclerView>
-
-                <TextView
-                    android:id="@+id/castTxt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Cast"
-                    android:textAllCaps="false"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toTopOf="@+id/castRecycler"
-                    app:layout_constraintEnd_toEndOf="@+id/castRecycler"
-                    app:layout_constraintHorizontal_bias="0.041"
-                    app:layout_constraintStart_toStartOf="@+id/castRecycler" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/castRecycler"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:padding="8dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/recyclerView"
-                    app:layout_constraintVertical_bias="0.0"
-                    tools:listitem="@layout/item_cast_design">
 
                 </androidx.recyclerview.widget.RecyclerView>
 
