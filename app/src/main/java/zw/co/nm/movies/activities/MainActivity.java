@@ -118,10 +118,10 @@ public class MainActivity extends AppCompatActivity implements MovieListAdapter.
         SearchView searchView = (SearchView) menuItem.getActionView();
         searchView.onActionViewExpanded();
         searchView.requestFocusFromTouch();
+        searchView.setQueryHint("Search Movies");
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
-
                 testOne(s, 50);
                 return true;
             }
