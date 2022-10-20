@@ -260,7 +260,6 @@
                         android:layout_height="wrap_content"
                         android:text="About this movie"
                         android:textSize="20sp"
-                        android:textStyle="italic"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/moreDetailImg"
                         app:layout_constraintHorizontal_bias="0.075"
@@ -297,6 +296,7 @@
                     tools:text="Based on Stephen King's 1996 novel of the same name. Stars Tom Hanks as a death row corrections officer during the U.S. Great Depression who witnesses supernatural events that occur after an enigmatic inmate (Michael Clarke Duncan) is brought to his facility." />
 
                 <TextView
+                    android:textColor="@color/green"
                     android:id="@+id/moreMoviesTxt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
