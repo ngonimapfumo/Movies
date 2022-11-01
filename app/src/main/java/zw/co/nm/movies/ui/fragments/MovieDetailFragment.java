@@ -1,4 +1,4 @@
-package zw.co.nm.movies;
+package zw.co.nm.movies.ui.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
+
+import zw.co.nm.movies.R;
 
 /**
  * A simple {@link Fragment} subclass.
