@@ -1,6 +1,16 @@
 package zw.co.nm.movies.activities;
 
+import static zw.co.nm.movies.utils.Utils.isNetworkAvailable;
+
+import android.app.Application;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
+import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -34,6 +44,7 @@ import zw.co.nm.movies.api.responses.GetMovieResponse;
 import zw.co.nm.movies.databinding.ActivityMainBinding;
 import zw.co.nm.movies.models.Movie;
 import zw.co.nm.movies.ui.adapters.MovieListAdapter;
+import zw.co.nm.movies.utils.NetworkChangeListener;
 import zw.co.nm.movies.utils.Utils;
 
 public class MainActivity extends AppCompatActivity implements MovieListAdapter.onMovieItemClick {
@@ -42,14 +53,15 @@ public class MainActivity extends AppCompatActivity implements MovieListAdapter.
     private List<Movie> movies;
     private ActivityMainBinding activityMainBinding;
     private List<String> movieId;
+    private NetworkChangeListener networkChangeListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityMainBinding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(activityMainBinding.getRoot());
-        testOne("", 20);
-
+        networkChangeListener= new NetworkChangeListener();
+        testOne("",20);
     }
 
     private void testOne(String query, int limit) {
@@ -104,9 +116,7 @@ public class MainActivity extends AppCompatActivity implements MovieListAdapter.
             }
 
             @Override
-            public void onFailure(Call<GetMovieResponse> call, Throwable t) {
-
-            }
+            public void onFailure(Call<GetMovieResponse> call, Throwable t) {}
         });
     }
 
@@ -138,5 +148,18 @@ public class MainActivity extends AppCompatActivity implements MovieListAdapter.
     @Override
     public void onMovieItemClick(int position) { startActivity(new Intent(this, MovieDetailActivity.class).putExtra("movieId",movieId.get(position)));
 
+    }
+
+    @Override
+    protected void onStart() {
+        IntentFilter intentFilter=  new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(networkChangeListener,intentFilter);
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        unregisterReceiver(networkChangeListener);
     }
 }

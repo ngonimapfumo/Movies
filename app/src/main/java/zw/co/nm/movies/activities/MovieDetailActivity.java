@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.android.youtube.player.YouTubeBaseActivity;
@@ -82,7 +81,6 @@ public class MovieDetailActivity extends YouTubeBaseActivity implements MovieLis
             @SuppressLint("DefaultLocale")
             @Override
             public void onResponse(Call<GetMovieDetailResponse> call, @NonNull Response<GetMovieDetailResponse> response) {
-
                 if (response.isSuccessful()) {
                     activityMovieDetailBinding.mainLayout.setVisibility(View.VISIBLE);
                     if (response.body() != null) {
@@ -192,7 +190,7 @@ public class MovieDetailActivity extends YouTubeBaseActivity implements MovieLis
 
             @Override
             public void onFailure(Call<GetMovieResponse> call, Throwable t) {
-
+                Log.e(TAG, "onFailure: ", t);
             }
         });
     }
@@ -200,7 +198,8 @@ public class MovieDetailActivity extends YouTubeBaseActivity implements MovieLis
 
     @Override
     public void onMovieItemClick(int position) {
-        startActivity(new Intent(this, MovieDetailActivity.class).putExtra("movieId", movieIds.get(position)));
+        startActivity(new Intent(this, MovieDetailActivity.class)
+                .putExtra("movieId", movieIds.get(position)));
     }
 
     @Override

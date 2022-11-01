@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -41,7 +40,8 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
         if(localDataSet.get(position).getLarge_cover_image()==null){
             Picasso.get().load(localDataSet.get(position).getMedium_cover_image()).into(holder.itemMovieDetailBinding.imageView);
         }
-       else Picasso.get().load(localDataSet.get(position).getLarge_cover_image()).placeholder(R.drawable.sample_cover_large).error(R.drawable.sample_cover_large).into(holder.itemMovieDetailBinding.imageView);
+       else Picasso.get().load(localDataSet.get(position).getLarge_cover_image()).placeholder(R.drawable.sample_cover_large)
+                .error(R.drawable.sample_cover_large).into(holder.itemMovieDetailBinding.imageView);
     }
 
     @Override
@@ -52,11 +52,6 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private ItemMovieDetailBinding itemMovieDetailBinding;
         private onMovieItemClick onMovieItemClick;
-
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-        }
-
 
         public ViewHolder(ItemMovieDetailBinding itemMovieDetailBinding, MovieListAdapter.onMovieItemClick onMovieItemClick) {
             super(itemMovieDetailBinding.getRoot());
