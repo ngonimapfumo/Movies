@@ -1,16 +1,8 @@
 package zw.co.nm.movies.activities;
 
-import static zw.co.nm.movies.utils.Utils.isNetworkAvailable;
-
-import android.app.Application;
-import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
-import android.net.Network;
-import android.net.NetworkCapabilities;
-import android.net.NetworkInfo;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,7 +14,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.google.gson.Gson;
@@ -60,13 +51,13 @@ public class MainActivity extends AppCompatActivity implements MovieListAdapter.
         super.onCreate(savedInstanceState);
         activityMainBinding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(activityMainBinding.getRoot());
-        networkChangeListener= new NetworkChangeListener();
-        testOne("",20);
+        networkChangeListener = new NetworkChangeListener();
+        testOne("", 20);
     }
 
     private void testOne(String query, int limit) {
         activityMainBinding.progBar.setVisibility(View.VISIBLE);
-        movieId= new ArrayList<>();
+        movieId = new ArrayList<>();
         movies = new ArrayList<>();
         Call<GetMovieResponse> call = Retrofit.getService().getMovies(query, limit);
         call.enqueue(new Callback<GetMovieResponse>() {
@@ -116,7 +107,8 @@ public class MainActivity extends AppCompatActivity implements MovieListAdapter.
             }
 
             @Override
-            public void onFailure(Call<GetMovieResponse> call, Throwable t) {}
+            public void onFailure(Call<GetMovieResponse> call, Throwable t) {
+            }
         });
     }
 
@@ -146,14 +138,15 @@ public class MainActivity extends AppCompatActivity implements MovieListAdapter.
     }
 
     @Override
-    public void onMovieItemClick(int position) { startActivity(new Intent(this, MovieDetailActivity.class).putExtra("movieId",movieId.get(position)));
+    public void onMovieItemClick(int position) {
+        startActivity(new Intent(this, MovieDetailActivity.class).putExtra("movieId", movieId.get(position)));
 
     }
 
     @Override
     protected void onStart() {
-        IntentFilter intentFilter=  new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
-        registerReceiver(networkChangeListener,intentFilter);
+        IntentFilter intentFilter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(networkChangeListener, intentFilter);
         super.onStart();
     }
 
