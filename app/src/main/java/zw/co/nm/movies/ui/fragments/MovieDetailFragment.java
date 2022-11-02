@@ -6,18 +6,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.google.android.youtube.player.YouTubeInitializationResult;
-import com.google.android.youtube.player.YouTubePlayer;
-import com.google.android.youtube.player.YouTubePlayerSupportFragment;
-import com.google.android.youtube.player.YouTubeThumbnailView;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
@@ -32,7 +25,6 @@ import java.util.Objects;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import zw.co.nm.movies.BuildConfig;
 import zw.co.nm.movies.R;
 import zw.co.nm.movies.activities.MovieDetailActivity;
 import zw.co.nm.movies.api.Retrofit;
@@ -62,7 +54,6 @@ public class MovieDetailFragment extends Fragment implements MovieListAdapter.on
     private List<Movie> movies;
     private List<String> movieIds;
     private LinearLayoutManager linearLayoutManager;
-    private YouTubePlayerSupportFragment youTubePlayerFragment;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -71,6 +62,7 @@ public class MovieDetailFragment extends Fragment implements MovieListAdapter.on
         fragmentMovieDetailBinding = FragmentMovieDetailBinding.inflate(inflater, container, false);
         movieId = MovieDetailFragmentArgs.fromBundle(getArguments()).getMovieId();
         getMovieDetail(movieId);
+        getMovieSuggestions(movieId);
         return fragmentMovieDetailBinding.getRoot();
     }
 
@@ -84,7 +76,7 @@ public class MovieDetailFragment extends Fragment implements MovieListAdapter.on
                 if (response.isSuccessful()) {
                     fragmentMovieDetailBinding.mainLayout.setVisibility(View.VISIBLE);
                     if (response.body() != null) {
-                        imgUrl = response.body().getData().movie.medium_cover_image;
+                        imgUrl = response.body().getData().movie.large_cover_image;
                         ytTrailer = response.body().getData().movie.yt_trailer_code;
                         movieTitle = response.body().getData().movie.title;
                         movieYear = String.valueOf(response.body().getData().movie.year);
@@ -94,13 +86,11 @@ public class MovieDetailFragment extends Fragment implements MovieListAdapter.on
                         movieRating = String.valueOf(response.body().getData().movie.rating);
                     }
                     Picasso.get().load(imgUrl)
-                            .placeholder(R.drawable.sample_cover_large)
-                            .into(fragmentMovieDetailBinding.imgv);
+                            .into(fragmentMovieDetailBinding.backgroundImm);
 
                     if (response.body().getData().movie.yt_trailer_code.equals("")) {
-                       // fragmentMovieDetailBinding.youtubePlayer.setVisibility(View.GONE);
+                        // fragmentMovieDetailBinding.youtubePlayer.setVisibility(View.GONE);
                         fragmentMovieDetailBinding.backgroundImm.setVisibility(View.VISIBLE);
-                        fragmentMovieDetailBinding.trailer404.setVisibility(View.VISIBLE);
                     } else {
                         /*YouTubePlayer.OnInitializedListener listener = new YouTubePlayer.OnInitializedListener() {
                             @Override
@@ -118,15 +108,17 @@ public class MovieDetailFragment extends Fragment implements MovieListAdapter.on
 
                     }
                     fragmentMovieDetailBinding.movieTitleTxt.setText(movieTitle);
-                    fragmentMovieDetailBinding.yearTxt.setText(movieYear);
                     if (movieSummary.equals("")) {
                         fragmentMovieDetailBinding.movieSummaryTxt.setText(R.string.no_info_avail);
                     } else fragmentMovieDetailBinding.movieSummaryTxt.setText(movieSummary);
+                    /*
+                    fragmentMovieDetailBinding.yearTxt.setText(movieYear);
+
                     fragmentMovieDetailBinding.durationTxt.setText(String.format(" %dmins", movieDuration));
                     fragmentMovieDetailBinding.movieRatingTxt.setText(movieRating);
                     if (movieMPARating.equals("")) {
                         fragmentMovieDetailBinding.movieMpaRatingTxt.setText("N/A");
-                    } else fragmentMovieDetailBinding.movieMpaRatingTxt.setText(movieMPARating);
+                    } else fragmentMovieDetailBinding.movieMpaRatingTxt.setText(movieMPARating);*/
 
 
                     JSONArray jsonArray = Utils.getJsonArray(new Gson().toJson(response.body().getData().movie.cast));
@@ -134,9 +126,9 @@ public class MovieDetailFragment extends Fragment implements MovieListAdapter.on
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject obj = Utils.getJsonObject(jsonArray, i);
                             Cast cast = new Gson().fromJson(Objects.requireNonNull(obj).toString(), Cast.class);
-                            castList.add(cast.getName());
+                            /*castList.add(cast.getName());
                             fragmentMovieDetailBinding.castTxt.setText(String.format("Starring: %s", castList.toString()
-                                    .replace("[", "").replace("]", "")));
+                                    .replace("[", "").replace("]", "")));*/
 
                         }
                     }
@@ -150,8 +142,9 @@ public class MovieDetailFragment extends Fragment implements MovieListAdapter.on
             }
         });
     }
+
     private void getMovieSuggestions(String movieId) {
-        fragmentMovieDetailBinding.moreMoviesTxt.setVisibility(View.GONE);
+       // fragmentMovieDetailBinding.moreMoviesTxt.setVisibility(View.GONE);
         movies = new ArrayList<>();
         movieIds = new ArrayList<>();
         linearLayoutManager = new LinearLayoutManager(getContext());
@@ -161,7 +154,7 @@ public class MovieDetailFragment extends Fragment implements MovieListAdapter.on
             @Override
             public void onResponse(Call<GetMovieResponse> call, Response<GetMovieResponse> response) {
                 if (response.isSuccessful()) {
-                    fragmentMovieDetailBinding.moreMoviesTxt.setVisibility(View.VISIBLE);
+                  //  fragmentMovieDetailBinding.moreMoviesTxt.setVisibility(View.VISIBLE);
                     String resString = null;
                     if (response.body() != null) {
                         resString = new Gson().toJson(response.body().getData().movies);
