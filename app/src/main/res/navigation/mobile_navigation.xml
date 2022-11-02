@@ -22,5 +22,9 @@
         <action
             android:id="@+id/action_movieDetailFragment_to_movieFragment"
             app:destination="@id/movieFragment" />
+        <argument
+            android:name="movieId"
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
 </navigation>

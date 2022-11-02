@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import zw.co.nm.movies.R;
 import zw.co.nm.movies.databinding.ActivityHostBinding;
+import zw.co.nm.movies.ui.fragments.MovieFragment;
 import zw.co.nm.movies.utils.NetworkChangeListener;
 
 public class HostActivity extends AppCompatActivity {
@@ -52,6 +53,8 @@ public class HostActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
+                MovieFragment movieFragment = new MovieFragment();
+                movieFragment.testOne(s,50);
                // testOne(s, 50);
                 return true;
             }

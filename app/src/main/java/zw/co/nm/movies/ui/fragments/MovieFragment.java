@@ -25,8 +25,6 @@ import java.util.Objects;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import zw.co.nm.movies.R;
-import zw.co.nm.movies.activities.MainActivity;
 import zw.co.nm.movies.api.Retrofit;
 import zw.co.nm.movies.api.responses.GetMovieResponse;
 import zw.co.nm.movies.databinding.FragmentMovieBinding;
@@ -45,7 +43,7 @@ public class MovieFragment extends Fragment implements MovieListAdapter.onMovieI
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         fragmentMovieBinding = FragmentMovieBinding.inflate(inflater, container, false);
-        testOne("",20);
+        testOne("", 20);
         return fragmentMovieBinding.getRoot();
     }
 
@@ -55,7 +53,7 @@ public class MovieFragment extends Fragment implements MovieListAdapter.onMovieI
         fragmentMovieBinding = null;
     }
 
-    private void testOne(String query, int limit) {
+    public void testOne(String query, int limit) {
         fragmentMovieBinding.progBar.setVisibility(View.VISIBLE);
         movieId = new ArrayList<>();
         movies = new ArrayList<>();
@@ -114,6 +112,8 @@ public class MovieFragment extends Fragment implements MovieListAdapter.onMovieI
 
     @Override
     public void onMovieItemClick(int position) {
-        Navigation.findNavController(requireView()).navigate(R.id.action_movieFragment_to_movieDetailFragment);
+        MovieFragmentDirections.ActionMovieFragmentToMovieDetailFragment actionMovieFragmentToMovieDetailFragment =
+                MovieFragmentDirections.actionMovieFragmentToMovieDetailFragment(movieId.get(position));
+        Navigation.findNavController(requireView()).navigate(actionMovieFragmentToMovieDetailFragment);
     }
 }
