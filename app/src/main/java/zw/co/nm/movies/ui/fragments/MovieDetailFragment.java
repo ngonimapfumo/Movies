@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.gson.Gson;
@@ -86,6 +87,7 @@ public class MovieDetailFragment extends Fragment implements MovieListAdapter.on
                         movieRating = String.valueOf(response.body().getData().movie.rating);
                     }
                     Picasso.get().load(imgUrl)
+                            .placeholder(R.drawable.sample_cover_large)
                             .into(fragmentMovieDetailBinding.backgroundImm);
 
                     if (response.body().getData().movie.yt_trailer_code.equals("")) {
@@ -110,17 +112,14 @@ public class MovieDetailFragment extends Fragment implements MovieListAdapter.on
                     fragmentMovieDetailBinding.movieTitleTxt.setText(movieTitle);
                     if (movieSummary.equals("")) {
                         fragmentMovieDetailBinding.movieSummaryTxt.setText(R.string.no_info_avail);
-                    } else fragmentMovieDetailBinding.movieSummaryTxt.setText(movieSummary);
-                    /*
+                    } else {fragmentMovieDetailBinding.movieSummaryTxt.setText(movieSummary);}
+                    fragmentMovieDetailBinding.runtimeTxt.setText(String.format(" %dmins", movieDuration));
                     fragmentMovieDetailBinding.yearTxt.setText(movieYear);
 
-                    fragmentMovieDetailBinding.durationTxt.setText(String.format(" %dmins", movieDuration));
-                    fragmentMovieDetailBinding.movieRatingTxt.setText(movieRating);
+                    /*fragmentMovieDetailBinding.movieRatingTxt.setText(movieRating);
                     if (movieMPARating.equals("")) {
                         fragmentMovieDetailBinding.movieMpaRatingTxt.setText("N/A");
                     } else fragmentMovieDetailBinding.movieMpaRatingTxt.setText(movieMPARating);*/
-
-
                     JSONArray jsonArray = Utils.getJsonArray(new Gson().toJson(response.body().getData().movie.cast));
                     if (jsonArray != null && jsonArray.length() > 0) {
                         for (int i = 0; i < jsonArray.length(); i++) {
@@ -194,6 +193,6 @@ public class MovieDetailFragment extends Fragment implements MovieListAdapter.on
 
     @Override
     public void onMovieItemClick(int position) {
-
+        getMovieDetail(movieIds.get(position));
     }
 }

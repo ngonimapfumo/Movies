@@ -41,6 +41,7 @@
                 app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
+                tools:text= "The Terminator: Dark fate"
                 android:id="@+id/movieTitleTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -52,6 +53,45 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.498"
                 app:layout_constraintStart_toStartOf="@+id/background_imm" />
+
+            <LinearLayout
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/movieTitleTxt">
+
+                <TextView
+                    android:id="@+id/yearTxt"
+                    android:textSize="@dimen/genre_year_txt"
+                    android:textColor="@color/white"
+                    android:layout_marginRight="12dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="2012" />
+
+                <TextView
+                    android:textSize="@dimen/genre_year_txt"
+                    android:layout_marginRight="12dp"
+                    android:textColor="@color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Drama" />
+
+                <TextView
+                    android:id="@+id/runtimeTxt"
+                    android:textSize="@dimen/genre_year_txt"
+                    android:layout_marginRight="12dp"
+                    android:textColor="@color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="98 mins" />
+
+
+
+            </LinearLayout>
 
             <Button
                 android:id="@+id/button"
