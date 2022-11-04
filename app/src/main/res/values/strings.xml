@@ -10,4 +10,6 @@
     <string name="no_info_avail">No information available</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="watch_trailer_txt">Watch trailer</string>
+    <string name="trailer_404">Trailer not available</string>
 </resources>

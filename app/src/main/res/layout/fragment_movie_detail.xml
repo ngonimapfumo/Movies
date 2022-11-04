@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mainLayout"
@@ -49,7 +50,7 @@
                 android:textColor="@color/white"
                 android:textSize="17sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/button"
+                app:layout_constraintBottom_toTopOf="@+id/trailerBtn"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.498"
                 app:layout_constraintStart_toStartOf="@+id/background_imm" />
@@ -94,12 +95,13 @@
             </LinearLayout>
 
             <Button
-                android:id="@+id/button"
+                android:visibility="gone"
+                android:id="@+id/trailerBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/white"
                 android:drawableLeft="@drawable/ic_baseline_play_arrow_24"
-                android:text="Watch trailer"
+                tools:text="Watch trailer"
                 android:textColor="@color/black"
                 app:layout_constraintBottom_toTopOf="@+id/textView3"
                 app:layout_constraintEnd_toEndOf="@+id/background_imm"
@@ -118,9 +120,9 @@
                 android:padding="6dp"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="@+id/background_imm"
-                app:layout_constraintEnd_toEndOf="@+id/button"
-                app:layout_constraintStart_toStartOf="@+id/button"
-                app:layout_constraintTop_toBottomOf="@+id/button" />
+                app:layout_constraintEnd_toEndOf="@+id/trailerBtn"
+                app:layout_constraintStart_toStartOf="@+id/trailerBtn"
+                app:layout_constraintTop_toBottomOf="@+id/trailerBtn" />
 
             <TextView
                 android:id="@+id/textView3"

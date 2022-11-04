@@ -1,6 +1,7 @@
 package zw.co.nm.movies.ui.fragments;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,7 +10,6 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.gson.Gson;
@@ -27,6 +27,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import zw.co.nm.movies.R;
+import zw.co.nm.movies.activities.YoutubeActivity;
 import zw.co.nm.movies.activities.MovieDetailActivity;
 import zw.co.nm.movies.api.Retrofit;
 import zw.co.nm.movies.api.responses.GetMovieDetailResponse;
@@ -64,6 +65,7 @@ public class MovieDetailFragment extends Fragment implements MovieListAdapter.on
         movieId = MovieDetailFragmentArgs.fromBundle(getArguments()).getMovieId();
         getMovieDetail(movieId);
         getMovieSuggestions(movieId);
+        fragmentMovieDetailBinding.trailerBtn.setOnClickListener(this);
         return fragmentMovieDetailBinding.getRoot();
     }
 
@@ -75,6 +77,7 @@ public class MovieDetailFragment extends Fragment implements MovieListAdapter.on
             @Override
             public void onResponse(Call<GetMovieDetailResponse> call, @NonNull Response<GetMovieDetailResponse> response) {
                 if (response.isSuccessful()) {
+                    fragmentMovieDetailBinding.trailerBtn.setVisibility(View.VISIBLE);
                     fragmentMovieDetailBinding.mainLayout.setVisibility(View.VISIBLE);
                     if (response.body() != null) {
                         imgUrl = response.body().getData().movie.large_cover_image;
@@ -90,29 +93,21 @@ public class MovieDetailFragment extends Fragment implements MovieListAdapter.on
                             .placeholder(R.drawable.sample_cover_large)
                             .into(fragmentMovieDetailBinding.backgroundImm);
 
-                    if (response.body().getData().movie.yt_trailer_code.equals("")) {
-                        // fragmentMovieDetailBinding.youtubePlayer.setVisibility(View.GONE);
-                        fragmentMovieDetailBinding.backgroundImm.setVisibility(View.VISIBLE);
-                    } else {
-                        /*YouTubePlayer.OnInitializedListener listener = new YouTubePlayer.OnInitializedListener() {
-                            @Override
-                            public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
-                                youTubePlayer.setShowFullscreenButton(false);
-                                youTubePlayer.cueVideo(ytTrailer);
-                            }
-
-                            @Override
-                            public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
-                                Toast.makeText(getContext(), "video initialization failed", Toast.LENGTH_SHORT).show();
-                            }
-                        };
-                        fragmentMovieDetailBinding.youtubePlayer.initialize(BuildConfig.API_KEY, listener);*/
-
+                    if (ytTrailer.equals("")) {
+                        fragmentMovieDetailBinding.trailerBtn.setText(R.string.trailer_404);
+                     fragmentMovieDetailBinding.trailerBtn.setEnabled(false);
+                       // fragmentMovieDetailBinding.trailerBtn.setVisibility(View.GONE);
+                    }
+                    else {
+                        fragmentMovieDetailBinding.trailerBtn.setEnabled(true);
+                        fragmentMovieDetailBinding.trailerBtn.setText(R.string.watch_trailer_txt);
                     }
                     fragmentMovieDetailBinding.movieTitleTxt.setText(movieTitle);
                     if (movieSummary.equals("")) {
                         fragmentMovieDetailBinding.movieSummaryTxt.setText(R.string.no_info_avail);
-                    } else {fragmentMovieDetailBinding.movieSummaryTxt.setText(movieSummary);}
+                    } else {
+                        fragmentMovieDetailBinding.movieSummaryTxt.setText(movieSummary);
+                    }
                     fragmentMovieDetailBinding.runtimeTxt.setText(String.format(" %dmins", movieDuration));
                     fragmentMovieDetailBinding.yearTxt.setText(movieYear);
 
@@ -143,7 +138,7 @@ public class MovieDetailFragment extends Fragment implements MovieListAdapter.on
     }
 
     private void getMovieSuggestions(String movieId) {
-       // fragmentMovieDetailBinding.moreMoviesTxt.setVisibility(View.GONE);
+        // fragmentMovieDetailBinding.moreMoviesTxt.setVisibility(View.GONE);
         movies = new ArrayList<>();
         movieIds = new ArrayList<>();
         linearLayoutManager = new LinearLayoutManager(getContext());
@@ -153,7 +148,7 @@ public class MovieDetailFragment extends Fragment implements MovieListAdapter.on
             @Override
             public void onResponse(Call<GetMovieResponse> call, Response<GetMovieResponse> response) {
                 if (response.isSuccessful()) {
-                  //  fragmentMovieDetailBinding.moreMoviesTxt.setVisibility(View.VISIBLE);
+                    //  fragmentMovieDetailBinding.moreMoviesTxt.setVisibility(View.VISIBLE);
                     String resString = null;
                     if (response.body() != null) {
                         resString = new Gson().toJson(response.body().getData().movies);
@@ -188,6 +183,10 @@ public class MovieDetailFragment extends Fragment implements MovieListAdapter.on
 
     @Override
     public void onClick(View view) {
+        int viewId = view.getId();
+        if (viewId == R.id.trailerBtn){
+            startActivity(new Intent(getContext(), YoutubeActivity.class).putExtra("trailerCode",ytTrailer));
+        }
 
     }
 
