@@ -15,10 +15,11 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.SearchView
-            android:layout_gravity="end"
             android:id="@+id/search"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            app:closeIcon="@drawable/ic_baseline_close_24" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

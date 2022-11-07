@@ -2,8 +2,6 @@ package zw.co.nm.movies.ui.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -28,6 +26,7 @@ import java.util.Objects;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import zw.co.nm.movies.R;
 import zw.co.nm.movies.api.Retrofit;
 import zw.co.nm.movies.api.responses.GetMovieResponse;
 import zw.co.nm.movies.databinding.FragmentMovieBinding;
@@ -47,14 +46,13 @@ public class MovieFragment extends Fragment implements MovieListAdapter.onMovieI
                              Bundle savedInstanceState) {
         fragmentMovieBinding = FragmentMovieBinding.inflate(inflater, container, false);
         testOne("", 20);
-
         setUpSearch();
         return fragmentMovieBinding.getRoot();
     }
 
     private void setUpSearch() {
         fragmentMovieBinding.search.setQueryHint("Search Movies");
-       fragmentMovieBinding.search.requestFocusFromTouch();
+        fragmentMovieBinding.search.requestFocusFromTouch();
         fragmentMovieBinding.search.setOnQueryTextListener(this);
     }
 

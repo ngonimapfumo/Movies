@@ -40,30 +40,4 @@ public class HostActivity extends AppCompatActivity {
         super.onStop();
         unregisterReceiver(networkChangeListener);
     }
-
-    /*@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.options_menu, menu);
-        MenuItem menuItem = menu.findItem(R.id.search);
-        SearchView searchView = (SearchView) menuItem.getActionView();
-        searchView.onActionViewExpanded();
-        searchView.requestFocusFromTouch();
-        searchView.setQueryHint("Search Movies");
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String s) {
-                MovieFragment movieFragment = new MovieFragment();
-                movieFragment.testOne(s,50);
-               // testOne(s, 50);
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String s) {
-                return false;
-            }
-        });
-        return true;
-    }*/
 }

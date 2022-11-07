@@ -42,7 +42,8 @@
                 app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
-                tools:text= "The Terminator: Dark fate"
+                android:gravity="center"
+                android:padding="5dp"
                 android:id="@+id/movieTitleTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
