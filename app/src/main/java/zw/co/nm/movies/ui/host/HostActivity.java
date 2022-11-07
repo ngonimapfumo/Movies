@@ -41,7 +41,7 @@ public class HostActivity extends AppCompatActivity {
         unregisterReceiver(networkChangeListener);
     }
 
-    @Override
+    /*@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.options_menu, menu);
@@ -65,5 +65,5 @@ public class HostActivity extends AppCompatActivity {
             }
         });
         return true;
-    }
+    }*/
 }

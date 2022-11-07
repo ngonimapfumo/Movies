@@ -2,12 +2,15 @@ package zw.co.nm.movies.ui.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -33,7 +36,7 @@ import zw.co.nm.movies.ui.adapters.MovieListAdapter;
 import zw.co.nm.movies.utils.Utils;
 
 
-public class MovieFragment extends Fragment implements MovieListAdapter.onMovieItemClick {
+public class MovieFragment extends Fragment implements MovieListAdapter.onMovieItemClick, SearchView.OnQueryTextListener {
     private FragmentMovieBinding fragmentMovieBinding;
     private MovieListAdapter movieListAdapter;
     private List<Movie> movies;
@@ -44,7 +47,15 @@ public class MovieFragment extends Fragment implements MovieListAdapter.onMovieI
                              Bundle savedInstanceState) {
         fragmentMovieBinding = FragmentMovieBinding.inflate(inflater, container, false);
         testOne("", 20);
+
+        setUpSearch();
         return fragmentMovieBinding.getRoot();
+    }
+
+    private void setUpSearch() {
+        fragmentMovieBinding.search.setQueryHint("Search Movies");
+       fragmentMovieBinding.search.requestFocusFromTouch();
+        fragmentMovieBinding.search.setOnQueryTextListener(this);
     }
 
     @Override
@@ -115,5 +126,16 @@ public class MovieFragment extends Fragment implements MovieListAdapter.onMovieI
         MovieFragmentDirections.ActionMovieFragmentToMovieDetailFragment actionMovieFragmentToMovieDetailFragment =
                 MovieFragmentDirections.actionMovieFragmentToMovieDetailFragment(movieId.get(position));
         Navigation.findNavController(requireView()).navigate(actionMovieFragmentToMovieDetailFragment);
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        testOne(query, 50);
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        return false;
     }
 }
