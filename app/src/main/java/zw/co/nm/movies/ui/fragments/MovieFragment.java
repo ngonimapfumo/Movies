@@ -51,6 +51,7 @@ public class MovieFragment extends Fragment implements MovieListAdapter.onMovieI
     }
 
     private void setUpSearch() {
+        fragmentMovieBinding.appBarLayout.setTitle(R.string.app_name);
         fragmentMovieBinding.search.setQueryHint("Search Movies");
         fragmentMovieBinding.search.requestFocusFromTouch();
         fragmentMovieBinding.search.setOnQueryTextListener(this);
