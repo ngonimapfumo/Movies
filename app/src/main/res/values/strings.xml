@@ -12,4 +12,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="watch_trailer_txt">Watch trailer</string>
     <string name="trailer_404">Trailer not available</string>
+    <string name="title_home">Home</string>
+    <string name="title_search">Search</string>
 </resources>

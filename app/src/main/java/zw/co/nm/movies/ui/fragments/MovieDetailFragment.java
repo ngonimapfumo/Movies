@@ -27,8 +27,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import zw.co.nm.movies.R;
-import zw.co.nm.movies.activities.YoutubeActivity;
 import zw.co.nm.movies.activities.MovieDetailActivity;
+import zw.co.nm.movies.activities.YoutubeActivity;
 import zw.co.nm.movies.api.Retrofit;
 import zw.co.nm.movies.api.responses.GetMovieDetailResponse;
 import zw.co.nm.movies.api.responses.GetMovieResponse;
@@ -55,6 +55,7 @@ public class MovieDetailFragment extends Fragment implements MovieListAdapter.on
     private MovieListAdapter movieListAdapter;
     private List<Movie> movies;
     private List<String> movieIds;
+    private List<String> genres;
     private LinearLayoutManager linearLayoutManager;
 
     @Override
@@ -70,7 +71,7 @@ public class MovieDetailFragment extends Fragment implements MovieListAdapter.on
     }
 
     private void getMovieDetail(String id) {
-        castList = new ArrayList<>();
+        genres = new ArrayList<>();
         Call<GetMovieDetailResponse> call = Retrofit.getService().getMovieDetail(id, true);
         call.enqueue(new Callback<GetMovieDetailResponse>() {
             @SuppressLint("DefaultLocale")
@@ -88,6 +89,7 @@ public class MovieDetailFragment extends Fragment implements MovieListAdapter.on
                         movieMPARating = response.body().getData().movie.mpa_rating;
                         movieDuration = response.body().getData().movie.runtime;
                         movieRating = String.valueOf(response.body().getData().movie.rating);
+                        genres = response.body().getData().movie.genres;
                     }
                     Picasso.get().load(imgUrl)
                             .placeholder(R.drawable.sample_cover_large)
@@ -95,10 +97,9 @@ public class MovieDetailFragment extends Fragment implements MovieListAdapter.on
 
                     if (ytTrailer.equals("")) {
                         fragmentMovieDetailBinding.trailerBtn.setText(R.string.trailer_404);
-                     fragmentMovieDetailBinding.trailerBtn.setEnabled(false);
-                       // fragmentMovieDetailBinding.trailerBtn.setVisibility(View.GONE);
-                    }
-                    else {
+                        fragmentMovieDetailBinding.trailerBtn.setEnabled(false);
+                        // fragmentMovieDetailBinding.trailerBtn.setVisibility(View.GONE);
+                    } else {
                         fragmentMovieDetailBinding.trailerBtn.setEnabled(true);
                         fragmentMovieDetailBinding.trailerBtn.setText(R.string.watch_trailer_txt);
                     }
@@ -110,6 +111,8 @@ public class MovieDetailFragment extends Fragment implements MovieListAdapter.on
                     }
                     fragmentMovieDetailBinding.runtimeTxt.setText(String.format(" %dmins", movieDuration));
                     fragmentMovieDetailBinding.yearTxt.setText(movieYear);
+                    if (genres.isEmpty()) fragmentMovieDetailBinding.genre.setText("n/a");
+                    else fragmentMovieDetailBinding.genre.setText(genres.get(0));
 
                     /*fragmentMovieDetailBinding.movieRatingTxt.setText(movieRating);
                     if (movieMPARating.equals("")) {
@@ -165,7 +168,6 @@ public class MovieDetailFragment extends Fragment implements MovieListAdapter.on
                                 e.printStackTrace();
                             }
                             movieListAdapter = new MovieListAdapter(movies, MovieDetailFragment.this, getContext());
-                            fragmentMovieDetailBinding.recyclerView.setHasFixedSize(true);
                             fragmentMovieDetailBinding.recyclerView.setLayoutManager(linearLayoutManager);
                             fragmentMovieDetailBinding.recyclerView.setAdapter(movieListAdapter);
 
@@ -184,8 +186,8 @@ public class MovieDetailFragment extends Fragment implements MovieListAdapter.on
     @Override
     public void onClick(View view) {
         int viewId = view.getId();
-        if (viewId == R.id.trailerBtn){
-            startActivity(new Intent(getContext(), YoutubeActivity.class).putExtra("trailerCode",ytTrailer));
+        if (viewId == R.id.trailerBtn) {
+            startActivity(new Intent(getContext(), YoutubeActivity.class).putExtra("trailerCode", ytTrailer));
         }
 
     }
@@ -193,5 +195,7 @@ public class MovieDetailFragment extends Fragment implements MovieListAdapter.on
     @Override
     public void onMovieItemClick(int position) {
         getMovieDetail(movieIds.get(position));
+        getMovieSuggestions(movieIds.get(position));
+
     }
 }
