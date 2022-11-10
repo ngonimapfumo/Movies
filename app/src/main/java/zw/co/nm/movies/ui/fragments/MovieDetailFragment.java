@@ -48,7 +48,7 @@ public class MovieDetailFragment extends Fragment implements MovieListAdapter.on
     private String ytTrailer;
     private String movieTitle;
     private String imgUrl;
-    private String movieYear,info_year;
+    private String movieYear;
     private String movieSummary;
     private String movieMPARating;
     private String movieRating;
