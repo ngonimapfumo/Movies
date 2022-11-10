@@ -7,6 +7,7 @@
     tools:context=".ui.host.HostActivity">
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:visibility="gone"
         app:itemRippleColor="@android:color/transparent"
         app:labelVisibilityMode="selected"
         android:id="@+id/nav_view"

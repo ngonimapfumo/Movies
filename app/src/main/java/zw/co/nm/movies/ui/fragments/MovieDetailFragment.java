@@ -1,6 +1,7 @@
 package zw.co.nm.movies.ui.fragments;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -47,7 +48,7 @@ public class MovieDetailFragment extends Fragment implements MovieListAdapter.on
     private String ytTrailer;
     private String movieTitle;
     private String imgUrl;
-    private String movieYear;
+    private String movieYear,info_year;
     private String movieSummary;
     private String movieMPARating;
     private String movieRating;
@@ -57,6 +58,7 @@ public class MovieDetailFragment extends Fragment implements MovieListAdapter.on
     private List<String> movieIds;
     private List<String> genres;
     private LinearLayoutManager linearLayoutManager;
+    private String description_full;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -67,11 +69,13 @@ public class MovieDetailFragment extends Fragment implements MovieListAdapter.on
         getMovieDetail(movieId);
         getMovieSuggestions(movieId);
         fragmentMovieDetailBinding.trailerBtn.setOnClickListener(this);
+        fragmentMovieDetailBinding.detailedSummaryTxt.setOnClickListener(this);
         return fragmentMovieDetailBinding.getRoot();
     }
 
     private void getMovieDetail(String id) {
         genres = new ArrayList<>();
+        castList= new ArrayList();
         Call<GetMovieDetailResponse> call = Retrofit.getService().getMovieDetail(id, true);
         call.enqueue(new Callback<GetMovieDetailResponse>() {
             @SuppressLint("DefaultLocale")
@@ -80,6 +84,10 @@ public class MovieDetailFragment extends Fragment implements MovieListAdapter.on
                 if (response.isSuccessful()) {
                     fragmentMovieDetailBinding.trailerBtn.setVisibility(View.VISIBLE);
                     fragmentMovieDetailBinding.mainLayout.setVisibility(View.VISIBLE);
+                    fragmentMovieDetailBinding.llAbout.setVisibility(View.VISIBLE);
+                    fragmentMovieDetailBinding.llSuggested.setVisibility(View.VISIBLE);
+                    fragmentMovieDetailBinding.constLayInfo.setVisibility(View.VISIBLE);
+
                     if (response.body() != null) {
                         imgUrl = response.body().getData().movie.large_cover_image;
                         ytTrailer = response.body().getData().movie.yt_trailer_code;
@@ -90,6 +98,7 @@ public class MovieDetailFragment extends Fragment implements MovieListAdapter.on
                         movieDuration = response.body().getData().movie.runtime;
                         movieRating = String.valueOf(response.body().getData().movie.rating);
                         genres = response.body().getData().movie.genres;
+                        description_full= response.body().getData().movie.description_full;
                     }
                     Picasso.get().load(imgUrl)
                             .placeholder(R.drawable.sample_cover_large)
@@ -98,7 +107,6 @@ public class MovieDetailFragment extends Fragment implements MovieListAdapter.on
                     if (ytTrailer.equals("")) {
                         fragmentMovieDetailBinding.trailerBtn.setText(R.string.trailer_404);
                         fragmentMovieDetailBinding.trailerBtn.setEnabled(false);
-                        // fragmentMovieDetailBinding.trailerBtn.setVisibility(View.GONE);
                     } else {
                         fragmentMovieDetailBinding.trailerBtn.setEnabled(true);
                         fragmentMovieDetailBinding.trailerBtn.setText(R.string.watch_trailer_txt);
@@ -111,21 +119,25 @@ public class MovieDetailFragment extends Fragment implements MovieListAdapter.on
                     }
                     fragmentMovieDetailBinding.runtimeTxt.setText(String.format(" %dmins", movieDuration));
                     fragmentMovieDetailBinding.yearTxt.setText(movieYear);
-                    if (genres.isEmpty()) fragmentMovieDetailBinding.genre.setText("n/a");
-                    else fragmentMovieDetailBinding.genre.setText(genres.get(0));
+                    fragmentMovieDetailBinding.infoYear.setText(movieYear);
+                    if (genres == null) {
+                        fragmentMovieDetailBinding.genre.setText("");
+                    } else fragmentMovieDetailBinding.genre.setText(genres.get(0));
 
-                    /*fragmentMovieDetailBinding.movieRatingTxt.setText(movieRating);
+                    fragmentMovieDetailBinding.detailedSummaryTxt.setText(description_full);
+
+                    fragmentMovieDetailBinding.movieRatingTxt.setText(movieRating);
                     if (movieMPARating.equals("")) {
                         fragmentMovieDetailBinding.movieMpaRatingTxt.setText("N/A");
-                    } else fragmentMovieDetailBinding.movieMpaRatingTxt.setText(movieMPARating);*/
+                    } else fragmentMovieDetailBinding.movieMpaRatingTxt.setText(movieMPARating);
                     JSONArray jsonArray = Utils.getJsonArray(new Gson().toJson(response.body().getData().movie.cast));
                     if (jsonArray != null && jsonArray.length() > 0) {
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject obj = Utils.getJsonObject(jsonArray, i);
                             Cast cast = new Gson().fromJson(Objects.requireNonNull(obj).toString(), Cast.class);
-                            /*castList.add(cast.getName());
-                            fragmentMovieDetailBinding.castTxt.setText(String.format("Starring: %s", castList.toString()
-                                    .replace("[", "").replace("]", "")));*/
+                            castList.add(cast.getName());
+                            fragmentMovieDetailBinding.castTxt.setText(castList.toString()
+                                    .replace("[", "").replace("]", ""));
 
                         }
                     }
@@ -188,6 +200,12 @@ public class MovieDetailFragment extends Fragment implements MovieListAdapter.on
         int viewId = view.getId();
         if (viewId == R.id.trailerBtn) {
             startActivity(new Intent(getContext(), YoutubeActivity.class).putExtra("trailerCode", ytTrailer));
+        }
+        else if(viewId==R.id.detailed_summaryTxt){
+            AlertDialog.Builder a = new AlertDialog.Builder(getContext());
+            a.setPositiveButton("Dismiss", null)
+                    .setMessage(description_full)
+                    .show();
         }
 
     }
