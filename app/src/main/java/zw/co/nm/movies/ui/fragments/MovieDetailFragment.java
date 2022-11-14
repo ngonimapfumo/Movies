@@ -28,7 +28,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import zw.co.nm.movies.R;
-import zw.co.nm.movies.activities.MovieDetailActivity;
 import zw.co.nm.movies.activities.YoutubeActivity;
 import zw.co.nm.movies.api.Retrofit;
 import zw.co.nm.movies.api.responses.GetMovieDetailResponse;
@@ -44,7 +43,7 @@ public class MovieDetailFragment extends Fragment implements MovieListAdapter.on
     private FragmentMovieDetailBinding fragmentMovieDetailBinding;
     private String movieId;
     private ArrayList castList;
-    private static final String TAG = MovieDetailActivity.class.getSimpleName();
+    private static final String TAG = MovieDetailFragment.class.getSimpleName();
     private String ytTrailer;
     private String movieTitle;
     private String imgUrl;
@@ -65,7 +64,10 @@ public class MovieDetailFragment extends Fragment implements MovieListAdapter.on
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         fragmentMovieDetailBinding = FragmentMovieDetailBinding.inflate(inflater, container, false);
-        movieId = MovieDetailFragmentArgs.fromBundle(getArguments()).getMovieId();
+        if(getArguments().getBoolean("fromActivity")){
+            movieId= getArguments().getString("movieId");
+        }
+        else {movieId = MovieDetailFragmentArgs.fromBundle(getArguments()).getMovieId();}
         getMovieDetail(movieId);
         getMovieSuggestions(movieId);
         fragmentMovieDetailBinding.trailerBtn.setOnClickListener(this);

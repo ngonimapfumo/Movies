@@ -27,12 +27,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.appcompat.widget.SearchView
-            android:id="@+id/search"
+        <ImageButton
+            android:background="@android:color/transparent"
+            android:id="@+id/searchbtn"
+            android:src="@drawable/ic_search"
+            android:layout_gravity="end"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            app:closeIcon="@drawable/ic_baseline_close_24" />
+            app:tint="@color/green" />
+
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.constraintlayout.widget.ConstraintLayout

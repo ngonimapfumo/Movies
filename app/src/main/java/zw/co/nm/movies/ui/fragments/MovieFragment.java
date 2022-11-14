@@ -1,5 +1,6 @@
 package zw.co.nm.movies.ui.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +28,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import zw.co.nm.movies.R;
+import zw.co.nm.movies.activities.SearchActivity;
 import zw.co.nm.movies.api.Retrofit;
 import zw.co.nm.movies.api.responses.GetMovieResponse;
 import zw.co.nm.movies.databinding.FragmentMovieBinding;
@@ -35,7 +37,7 @@ import zw.co.nm.movies.ui.adapters.MovieListAdapter;
 import zw.co.nm.movies.utils.Utils;
 
 
-public class MovieFragment extends Fragment implements MovieListAdapter.onMovieItemClick, SearchView.OnQueryTextListener {
+public class MovieFragment extends Fragment implements MovieListAdapter.onMovieItemClick {
     private FragmentMovieBinding fragmentMovieBinding;
     private MovieListAdapter movieListAdapter;
     private List<Movie> movies;
@@ -52,9 +54,9 @@ public class MovieFragment extends Fragment implements MovieListAdapter.onMovieI
 
     private void setUpSearch() {
         fragmentMovieBinding.appBarLayout.setTitle(R.string.app_name);
-        fragmentMovieBinding.search.setQueryHint("Search Movies");
-        fragmentMovieBinding.search.requestFocusFromTouch();
-        fragmentMovieBinding.search.setOnQueryTextListener(this);
+        fragmentMovieBinding.searchbtn.setOnClickListener(view -> {startActivity(
+                new Intent(getContext(), SearchActivity.class)
+        );});
     }
 
     @Override
@@ -125,16 +127,5 @@ public class MovieFragment extends Fragment implements MovieListAdapter.onMovieI
         MovieFragmentDirections.ActionMovieFragmentToMovieDetailFragment actionMovieFragmentToMovieDetailFragment =
                 MovieFragmentDirections.actionMovieFragmentToMovieDetailFragment(movieId.get(position));
         Navigation.findNavController(requireView()).navigate(actionMovieFragmentToMovieDetailFragment);
-    }
-
-    @Override
-    public boolean onQueryTextSubmit(String query) {
-        testOne(query, 50);
-        return true;
-    }
-
-    @Override
-    public boolean onQueryTextChange(String newText) {
-        return false;
     }
 }

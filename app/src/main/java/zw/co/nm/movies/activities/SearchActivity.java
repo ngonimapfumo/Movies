@@ -1,6 +1,5 @@
 package zw.co.nm.movies.activities;
 
-import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
@@ -14,6 +13,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.google.gson.Gson;
@@ -35,10 +36,11 @@ import zw.co.nm.movies.api.responses.GetMovieResponse;
 import zw.co.nm.movies.databinding.ActivityMainBinding;
 import zw.co.nm.movies.models.Movie;
 import zw.co.nm.movies.ui.adapters.MovieListAdapter;
+import zw.co.nm.movies.ui.fragments.MovieDetailFragment;
 import zw.co.nm.movies.utils.NetworkChangeListener;
 import zw.co.nm.movies.utils.Utils;
 
-public class MainActivity extends AppCompatActivity implements MovieListAdapter.onMovieItemClick {
+public class SearchActivity extends AppCompatActivity implements MovieListAdapter.onMovieItemClick {
 
     private MovieListAdapter movieListAdapter;
     private List<Movie> movies;
@@ -52,7 +54,8 @@ public class MainActivity extends AppCompatActivity implements MovieListAdapter.
         activityMainBinding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(activityMainBinding.getRoot());
         networkChangeListener = new NetworkChangeListener();
-        testOne("", 20);
+       // testOne("", 20);
+        getSupportActionBar().setTitle("Search");
     }
 
     private void testOne(String query, int limit) {
@@ -66,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements MovieListAdapter.
                 if (response.isSuccessful()) {
                     if (response.body().getData().movie_count == 0) {
                         activityMainBinding.progBar.setVisibility(View.GONE);
-                        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                        AlertDialog.Builder builder = new AlertDialog.Builder(SearchActivity.this);
                         builder.setMessage("No Movies found for this search, please try again");
                         builder.setPositiveButton("OKAY", (dialogInterface, i) -> {
                                     testOne("", 20);
@@ -88,9 +91,9 @@ public class MainActivity extends AppCompatActivity implements MovieListAdapter.
                                 try {
                                     movieId.add(obj.getString("id"));
                                     movies.add(movie);
-                                    movieListAdapter = new MovieListAdapter(movies, MainActivity.this, MainActivity.this);
+                                    movieListAdapter = new MovieListAdapter(movies, SearchActivity.this, SearchActivity.this);
                                     activityMainBinding.movieRecycler.setHasFixedSize(true);
-                                    activityMainBinding.movieRecycler.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));
+                                    activityMainBinding.movieRecycler.setLayoutManager(new GridLayoutManager(SearchActivity.this, 2));
                                     activityMainBinding.movieRecycler.setAdapter(movieListAdapter);
                                 } catch (JSONException e) {
                                     e.printStackTrace();
@@ -102,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements MovieListAdapter.
                 } else {
                     //todo: handle this
                     activityMainBinding.progBar.setVisibility(View.GONE);
-                    Toast.makeText(MainActivity.this, "Error, Please try again later", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SearchActivity.this, "Error, Please try again later", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -139,7 +142,7 @@ public class MainActivity extends AppCompatActivity implements MovieListAdapter.
 
     @Override
     public void onMovieItemClick(int position) {
-        startActivity(new Intent(this, MovieDetailActivity.class).putExtra("movieId", movieId.get(position)));
+        handleFragment(new MovieDetailFragment(), movieId.get(position));
 
     }
 
@@ -154,5 +157,16 @@ public class MainActivity extends AppCompatActivity implements MovieListAdapter.
     protected void onStop() {
         super.onStop();
         unregisterReceiver(networkChangeListener);
+    }
+
+    public void handleFragment(Fragment fragment, String id) {
+        Bundle bundle = new Bundle();
+        bundle.putBoolean("fromActivity",true);
+        bundle.putString("movieId", id);
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        fragment.setArguments(bundle);
+        transaction.replace(R.id.container, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 }
